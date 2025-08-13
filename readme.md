@@ -15,5 +15,5 @@ make smarter investment decisions.
 
 ## Sound Fun! How Can I Join This Project?
 
-I’m glad you’re interested! Shoot me a message on Instagram with your GitHub email, and I’ll send you an invitation to
-join as a collaborator.
+I’m glad you’re interested! Shoot me a message on Instagram @realItserge with your GitHub's email, and I’ll send you an
+invitation to join as a collaborator.
