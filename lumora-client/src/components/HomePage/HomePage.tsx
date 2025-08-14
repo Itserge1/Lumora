@@ -1,6 +1,8 @@
 "use client"; // Treat this as a client component
 
 import styles from "./HomePage.module.css";
+const user = 1;
+user = 2;
 
 const HomePage = () => {
   return (
