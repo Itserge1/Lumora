@@ -1,0 +1,49 @@
+name: PR Alerts to Discord
+
+on:
+  pull_request:
+    types: [opened, closed]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send PR alert to Discord
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_URL="${{ github.event.pull_request.html_url }}"
+          PR_AUTHOR="${{ github.event.pull_request.user.login }}"
+          ACTION="${{ github.event.action }}"
+          MERGED="${{ github.event.pull_request.merged }}"
+          SOURCE_BRANCH="${{ github.event.pull_request.head.ref }}"
+          TARGET_BRANCH="${{ github.event.pull_request.base.ref }}"
+
+          if [ "$ACTION" = "opened" ]; then
+            STATUS="🟢 New Pull Request Opened"
+            COLOR=5814783   # blue
+          elif [ "$ACTION" = "closed" ] && [ "$MERGED" = "true" ]; then
+            STATUS="✅ Pull Request Merged"
+            COLOR=3066993   # green
+          else
+            STATUS="❌ Pull Request Closed (not merged)"
+            COLOR=15158332  # red
+          fi
+
+          JSON=$(jq -n \
+            --arg title "$PR_TITLE" \
+            --arg url "$PR_URL" \
+            --arg author "$PR_AUTHOR" \
+            --arg status "$STATUS" \
+            --arg source "$SOURCE_BRANCH" \
+            --arg target "$TARGET_BRANCH" \
+            --argjson color "$COLOR" \
+            '{embeds: [{
+              title: $status,
+              description: ("**" + $title + "**\n👤 Author: " + $author + "\n🌿 Branch: " + $source + " → " + $target),
+              url: $url,
+              color: $color
+            }]}')
+
+          curl -H "Content-Type: application/json" \
+               -d "$JSON" \
+               ${{ secrets.DISCORD_WEBHOOK }}
