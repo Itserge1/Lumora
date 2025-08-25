@@ -86,7 +86,7 @@ NEXT_PUBLIC_API_BASE_URL="http://localhost:4000/"
    Add your code changes, commit them with clear messages, and push your branch:
 
    ```bash
-   git push origin your-branch-name
+   git push --set-upstream origin your/branch-name
    ```
 
 4. **Open a Pull Request (PR)**
