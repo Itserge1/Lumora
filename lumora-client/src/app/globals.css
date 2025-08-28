@@ -1,8 +1,39 @@
 @import "../../node_modules/tailwindcss";
 
 :root {
+  /*====== GENERAL ======*/
+
+  /* colors */
+  --primary-color: #6054CC;
   --background: #ffffff;
   --foreground: #171717;
+
+
+  /* ====== NAVBAR.MODULE.CSS VARIABLES ======*/
+
+  /* colors */
+  --navbar-text-color: whitesmoke;
+
+  /* Navbar sizes */
+  --navbar-height: 2.5rem;
+  --navbar-padding-y: 1.125rem;
+  --navbar-padding-x: 7rem;
+  --navbar-links-width: 25rem;
+  --navbar-underline-height: 0.1875rem;
+
+  /*====== BUTTON.MODULE.CSS VARIABLES ======*/
+
+  /*colors*/
+  --button-bg: #6054CC;
+
+  /* sizes*/
+  --button-hover-icon-move: 0.3125rem;
+  --button-gap: 0.2rem;
+  --button-padding-y: 0.4rem;
+  --button-padding-x: 0.2rem;
+  --button-radius: 0.4375rem;
+  --button-text-size: 0.6rem;
+  --button-text-weight: bold;
 }
 
 @theme inline {
