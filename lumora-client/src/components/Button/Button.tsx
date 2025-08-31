@@ -1,12 +1,26 @@
 import styles from './Button.module.css'
 
-const Button = () => {
+interface ButtonCSSVars {
+    '--button-min-width'?: string;
+    '--button-text-size'?: string;
+    '--button-padding-x'?: string;
+    '--button-padding-y'?: string;
+    '--button-svg-icon-width'?: string
+    '--button-svg-icon-height'?: string
+}
+
+interface ButtonProps {
+    size?: 'small' | 'medium' | 'large' | 'custom';
+    children?: React.ReactNode;
+    customStyles?: React.CSSProperties & ButtonCSSVars;
+}
+
+const Button: React.FC<ButtonProps> = ({ size = 'medium', children = 'Sign up', customStyles }) => {
     return(
         <section>
-            <a href={"/"} className={`${styles.button}`} >
-
+            <a href={"/"} className={`${styles.button} ${size ? styles[size] : ''}`} style={customStyles} >
                 <span className={`${styles['button-text']}`}>
-                    Sign up
+                    {children}
                 </span>
                 <span className={`${styles["button-icon"]}`}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
@@ -15,7 +29,6 @@ const Button = () => {
                               clipRule="evenodd"/>
                     </svg>
                 </span>
-
             </a>
         </section>
     )

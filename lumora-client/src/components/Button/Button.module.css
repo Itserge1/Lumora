@@ -1,5 +1,6 @@
 .button {
-    width: 80px;
+    width: auto; /* let width be dynamic */
+    min-width: var(--button-min-width, 80px);
     background-color: var(--button-bg);
     display: flex;
     align-items: center;
@@ -11,7 +12,7 @@
 }
 
 .button-text {
-    font-size: var(--button-text-size);
+    font-size: var(--button-text-size, 1rem);
     font-weight: var(--button-text-weight);
 }
 
@@ -19,6 +20,37 @@
     transition: 0.5s ease-in-out;
 }
 
+.button-icon svg {
+    width: var(--button-svg-icon-width);
+    height: var(--button-svg-icon-height);
+}
+
 .button:hover .button-icon {
     transform: translateX(var(--button-hover-icon-move));
 }
+
+/* Size presets specific to this component */
+.button.small {
+    --button-padding-y: 0.25rem;
+    --button-padding-x: 0.5rem;
+    --button-text-size: 0.75rem;
+}
+
+.button.medium {
+    --button-padding-y: 0.5rem;
+    --button-padding-x: 1rem;
+    --button-text-size: 1rem;
+    min-width: 120px;
+}
+
+.button.large {
+    --button-padding-y: 0.75rem;
+    --button-padding-x: 1.5rem;
+    --button-text-size: 1.25rem;
+    min-width: 150px
+}
+
+.button.custom {
+    /* You can override variables via inline style in React */
+}
+

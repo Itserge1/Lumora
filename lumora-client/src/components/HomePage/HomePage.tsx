@@ -1,12 +1,12 @@
 "use client"; // Treat this as a client components
 
 import styles from "./HomePage.module.css";
-import NavBar from "@/components/NavBar/NavBar";
+import Button from "@/components/Button/Button";
 
 const HomePage = () => {
     return (
-        <section className={`${styles.homepage}`}>
-            <NavBar/>
+        <section className={`${styles.homepage} flex gap-4`}>
+
         </section>
     );
 };
