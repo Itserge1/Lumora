@@ -2,15 +2,19 @@
 
 :root {
   /*====== GENERAL ======*/
-
   /* colors */
   --primary-color: #6054CC;
   --background: #ffffff;
   --foreground: #171717;
 
+  /* sizes */
+  --breakpoint-sm: 640px;   /* small phones */
+  --breakpoint-md: 768px;   /* tablets */
+  --breakpoint-lg: 1024px;  /* laptops */
+  --breakpoint-xl: 1280px;  /* desktops */
+  --breakpoint-2xl: 1536px; /* big monitors */
 
   /* ====== NAVBAR.MODULE.CSS VARIABLES ======*/
-
   /* colors */
   --navbar-text-color: whitesmoke;
 
@@ -22,19 +26,23 @@
   --navbar-underline-height: 0.1875rem;
 
   /*====== BUTTON.MODULE.CSS VARIABLES ======*/
-
   /*colors*/
   --button-bg: #6054CC;
 
   /* sizes*/
-  --button-hover-icon-move: 0.3125rem;
   --button-gap: 0.2rem;
   --button-padding-y: 0.4rem;
   --button-padding-x: 0.2rem;
   --button-radius: 0.4375rem;
   --button-text-size: 0.6rem;
   --button-text-weight: bold;
+  --button-hover-icon-move: 0.3125rem;
+  --button-svg-icon-width: 1.5rem;
+  --button-svg-icon-height: 1.5rem;
+  --button-min-width: 80px
 }
+
+
 
 @theme inline {
   --color-background: var(--background);

@@ -1,41 +1,96 @@
+/* Base (mobile first) styles apply to phones */
+
 .navbar {
-    height: var(--navbar-height);
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--navbar-padding-y) var(--navbar-padding-x);
+    padding: 1rem 1rem;
+    background-color: darkred;
 }
 
 .navbar-logo {
     cursor: pointer;
+    font-size: 2rem;
 }
 
-.navbar-center {}
-
-.navbar-center ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.navbar-center{
+    display: none;
 }
 
-.navbar-links {
-    width: var(--navbar-links-width);
+.navbar-button{
+    display: none;
+}
+
+.navbar-hamburger-menu{
+    cursor: pointer;
+}
+
+.navbar-hamburger-menu svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+.navbar-toggle {
+    background-color: #201A1A;
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 0 0 0 7rem;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none; /* prevent clicking when hidden */
+}
+
+.active {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto; /* allow clicking when active */
+}
+
+.navbar-close{
+    height: 4rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
+    padding: 0 .8rem;
 }
 
-.navbar-links li a {
+.navbar-close svg {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.navbar-toggle-links {
+    height: 50%;
+    margin: 0 0 1rem 0;
+}
+
+.navbar-toggle-links ul{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.navbar-toggle-links ul li{
+    font-size: 1.5rem;
+}
+
+.navbar-toggle-links ul li a {
     color: var(--navbar-text-color);
     transition: 0.3s ease-in-out;
 }
 
-.navbar-links li {
+.navbar-toggle-links ul li {
     position: relative;
 }
 
-.navbar-links li a::before{
+.navbar-toggle-links ul li a::before{
     content: "";
     width: 0;
     height: var(--navbar-underline-height);
@@ -46,12 +101,117 @@
     transition: 0.3s ease-in-out;
 }
 
-.navbar-links li a:hover{
+.navbar-toggle-links ul li a:hover{
     color: var(--primary-color);
 }
 
-.navbar-links li a:hover::before{
+.navbar-toggle-links ul a:hover::before{
     width: 100%;
 }
 
-.navbar-button {}
+.navbar-toggle-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* RESPONSIVE */
+
+/* Tablet */
+@media (min-width: 768px) {
+    /* tablet */
+    .navbar {
+        background-color: darkgreen;
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .navbar-toggle{
+        display: none;
+    }
+
+    .navbar-hamburger-menu{
+        display: none;
+    }
+
+    .navbar-center{
+        display: flex;
+        flex: 1;
+        justify-content: center;
+    }
+
+    .navbar-center ul{
+        width: 60%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        /*background-color: #171717;*/
+    }
+
+    .navbar-center ul li{
+        font-size: 1.3rem;
+    }
+
+    .navbar-center ul li a {
+        color: var(--navbar-text-color);
+        transition: 0.3s ease-in-out;
+    }
+
+    .navbar-center ul li {
+        position: relative;
+    }
+
+    .navbar-center ul li a::before{
+        content: "";
+        width: 0;
+        height: var(--navbar-underline-height);
+        position: absolute;
+        bottom: -.1rem;
+        left: 0;
+        background-color: var(--primary-color);
+        transition: 0.3s ease-in-out;
+    }
+
+    .navbar-center ul li a:hover{
+        color: var(--primary-color);
+    }
+
+    .navbar-center ul a:hover::before{
+        width: 100%;
+    }
+    .navbar-button {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+}
+
+/* Laptop */
+@media (min-width: 1024px) {
+    /* laptop+ */
+    .navbar{
+        background-color: darkblue;
+    }
+}
+
+/* Desktop / large monitor */
+@media (min-width: 1280px) {
+    /* desktop+ */
+    .navbar{
+        background-color: darkblue;
+    }
+}
+
+/* Extra large monitors */
+@media (min-width: 1536px) {
+    /* 2k+ screens */
+    .navbar{
+        background-color: darkcyan;
+    }
+}
