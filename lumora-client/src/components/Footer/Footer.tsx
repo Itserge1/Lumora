@@ -54,16 +54,16 @@ function Footer() {
 
   return (
     <footer className="bg-gray-800 text-white py-12">
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="md:col-span-2 items-center">
+      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="col-span-1 lg:col-span-2 items-center text-center md:text-left">
           <h3 className="text-xl font-bold mb-4">Lumora</h3>
           <p className="text-gray-300">
             Intelligent stock news and insights for modern investors.
           </p>
         </div>
-        <div className="md:col-span-1 grid grid-cols-1 sm:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 col-span-1 md:col-span-2 gap-8">
           {linkGroups.map((group) => (
-            <div key={group.title}>
+            <div key={group.title} className="text-center md:text-left">
               <h4 className="font-semibold mb-4">{group.title}</h4>
               <ul className="space-y-2">
                 {group.links.map((link) => (
