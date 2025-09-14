@@ -1,6 +1,5 @@
 "use client";
 
-import styles from "./Footer.module.css";
 import type { ReactNode } from "react";
 
 interface FooterLinkProps {
@@ -55,17 +54,14 @@ function Footer() {
 
   return (
     <footer className="bg-gray-800 text-white py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <h3 className="text-xl font-bold">Lumora</h3>
-            </div>
-            <p className="text-gray-300">
-              Intelligent stock news and insights for modern investors.
-            </p>
-          </div>
-
+      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="md:col-span-2 items-center">
+          <h3 className="text-xl font-bold mb-4">Lumora</h3>
+          <p className="text-gray-300">
+            Intelligent stock news and insights for modern investors.
+          </p>
+        </div>
+        <div className="md:col-span-1 grid grid-cols-1 sm:grid-cols-3 gap-8">
           {linkGroups.map((group) => (
             <div key={group.title}>
               <h4 className="font-semibold mb-4">{group.title}</h4>
@@ -79,10 +75,10 @@ function Footer() {
             </div>
           ))}
         </div>
+      </div>
 
-        <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-          <p>© {new Date().getFullYear()} Lumora. All rights reserved.</p>
-        </div>
+      <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+        <p>© {new Date().getFullYear()} Lumora. All rights reserved.</p>
       </div>
     </footer>
   );
