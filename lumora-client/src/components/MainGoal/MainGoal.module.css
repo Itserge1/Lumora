@@ -1,5 +1,5 @@
 .maingoal{
     height: 35rem;
     width: 100%;
-    background-color: darkolivegreen;
+    background-color: var(--background-color);
 }
