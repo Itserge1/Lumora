@@ -1,5 +1,49 @@
 .newssource{
-    height: 7rem;
     width: 100%;
-    background-color: rebeccapurple;
+    text-align: center;
+}
+
+.newssource h4{
+    font-weight: bold;
+    font-size: 2rem;
+    margin: 1rem;
+}
+
+.newssource-icons-groups{
+    width: 100%;
+    display: grid;
+    height: 15rem;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
+    place-items: center;
+    background-color: #171717;
+    padding: 0 1rem 0 1.5rem;
+}
+
+.newssource-icon_yahoo_finance{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+}
+
+.newssource-icon_cnbc {
+    display: flex;
+    position: relative;
+    justify-content: center;
+}
+
+.newssource-icon_cnbc span{
+    position: absolute;
+    bottom: -10px;
+    font-weight: bold;
+}
+
+@media (min-width: 768px) {
+    /* tablet */
+    .newssource-icons-groups{
+        grid-template-columns: repeat(4, 1fr);
+        height: 6rem;
+    }
+
 }

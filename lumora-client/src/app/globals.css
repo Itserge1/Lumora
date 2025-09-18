@@ -4,6 +4,7 @@
   /*====== GENERAL ======*/
   /* colors */
   --primary-color: #6054CC;
+  --background-color: #1F2937;
   --background: #ffffff;
   --foreground: #171717;
 
@@ -53,9 +54,15 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #1F2937;
     --foreground: #ededed;
   }
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {

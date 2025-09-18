@@ -1,12 +1,16 @@
 /* Base (mobile first) styles apply to phones */
 
 .navbar {
+    position: sticky;
+    z-index: 100;
+    top: 0;
+    left: 0;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1rem;
-    background-color: darkred;
+    background-color: var(--background-color);
 }
 
 .navbar-logo {
@@ -32,10 +36,10 @@
 }
 
 .navbar-toggle {
-    background-color: #201A1A;
+    background-color: var(--background-color);
     width: 50%;
-    height: 100%;
-    position: absolute;
+    height: 100vh;
+    position: fixed;
     right: 0;
     top: 0;
     border-radius: 0 0 0 7rem;
@@ -121,7 +125,6 @@
 @media (min-width: 768px) {
     /* tablet */
     .navbar {
-        background-color: darkgreen;
         padding: 1rem 2rem;
         display: flex;
         align-items: center;
@@ -151,7 +154,6 @@
         margin: 0;
         padding: 0;
         list-style: none;
-        /*background-color: #171717;*/
     }
 
     .navbar-center ul li{
@@ -196,7 +198,7 @@
 @media (min-width: 1024px) {
     /* laptop+ */
     .navbar{
-        background-color: darkblue;
+        /*background-color: darkblue;*/
     }
 }
 
@@ -204,7 +206,7 @@
 @media (min-width: 1280px) {
     /* desktop+ */
     .navbar{
-        background-color: darkblue;
+        /*background-color: darkblue;*/
     }
 }
 
@@ -212,6 +214,6 @@
 @media (min-width: 1536px) {
     /* 2k+ screens */
     .navbar{
-        background-color: darkcyan;
+        /*background-color: darkcyan;*/
     }
 }
