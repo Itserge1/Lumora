@@ -5,6 +5,7 @@
   /* colors */
   --primary-color: #6054CC;
   --background-color: #1F2937;
+  --secondary-bg-color: #111827;
   --background: #ffffff;
   --foreground: #171717;
 
@@ -40,10 +41,26 @@
   --button-hover-icon-move: 0.3125rem;
   --button-svg-icon-width: 1.5rem;
   --button-svg-icon-height: 1.5rem;
-  --button-min-width: 80px
+  --button-min-width: 80px;
+
+
+/*==========================MAINGOAL SECTION (Accordion)=========================*/
+  /*Color*/
+  --hue-color: 225;
+
+  --first-color: hsl(var(--hue-color), 48%, 35%);
+  --title-color: hsl(var(--hue-color), 48%, 90%);
+  --text-color: hsl(var(--hue-color), 12%, 80%);
+  --body-color: hsl(var(--hue-color), 48%, 98%);
+  --container-color: #111827;
+
+  /* Font and Typography */
+  --body-font: 'Poppins', sans-serif;
+
+  --normal-font-size: .938rem ;
+  --small-font-size: .813rem;
+  --smaller-font-size: .75rem;
 }
-
-
 
 @theme inline {
   --color-background: var(--background);
@@ -69,4 +86,9 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+
+  /*font-family: var(--body-font);*/
+  /*font-size: var(--normal-font-size);*/
+  /*background-color: var(--body-color);*/
+  /*color: var(--text-color);*/
 }

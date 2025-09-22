@@ -16,7 +16,7 @@
 
 .slide-content {
     height: 27rem;
-    background-color: #111827;
+    background-color: var(--secondary-bg-color);
     border-radius: 1rem;
     border-bottom: #ededed solid 1px;
     border-right: #ededed solid 1px;
