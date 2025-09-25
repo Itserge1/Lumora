@@ -2,6 +2,11 @@
 
 import Button from "../Button/Button";
 
+interface PricingGroup {
+  title: string;
+  features: Array<{ label: string }>;
+}
+
 const PricingCard = ({ title, features }: PricingGroup) => {
   return (
     <div className="border rounded-3xl border-primary-500 shadow-md max-w-lg p-10 w-sm">
@@ -20,11 +25,6 @@ const PricingCard = ({ title, features }: PricingGroup) => {
     </div>
   );
 };
-
-interface PricingGroup {
-  title: string;
-  features: Array<{ label: string }>;
-}
 
 const Pricing = () => {
   const pricingGroups: PricingGroup[] = [
