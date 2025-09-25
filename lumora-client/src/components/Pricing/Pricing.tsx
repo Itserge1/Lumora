@@ -2,6 +2,25 @@
 
 import Button from "../Button/Button";
 
+const PricingCard = ({ title, features }: PricingGroup) => {
+  return (
+    <div className="border rounded-3xl border-primary-500 shadow-md max-w-lg p-10 w-sm">
+      <h4 className="text-4xl text-center mt-4 font-extrabold">{title}</h4>
+      <ul className="my-10">
+        {features.map((feature) => (
+          <li
+            className="text-center text-lg mb-3 pb-3 border-b border-gray-700"
+            key={feature.label}
+          >
+            {feature.label}
+          </li>
+        ))}
+      </ul>
+      <Button />
+    </div>
+  );
+};
+
 interface PricingGroup {
   title: string;
   features: Array<{ label: string }>;
@@ -46,25 +65,11 @@ const Pricing = () => {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 justify-items-center max-w-10xl">
         {pricingGroups.map((group) => (
-          <div
+          <PricingCard
             key={group.title}
-            className="border rounded-3xl border-primary-500 shadow-md max-w-lg p-10 w-sm"
-          >
-            <h4 className="text-4xl text-center mt-4 font-extrabold">
-              {group.title}
-            </h4>
-            <ul className="my-10">
-              {group.features.map((feature) => (
-                <li
-                  className="text-center text-lg mb-3 pb-3 border-b border-gray-700"
-                  key={feature.label}
-                >
-                  {feature.label}
-                </li>
-              ))}
-            </ul>
-            <Button />
-          </div>
+            title={group.title}
+            features={group.features}
+          />
         ))}
       </div>
     </section>
