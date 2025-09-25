@@ -40,15 +40,20 @@ const Pricing = () => {
   ];
 
   return (
-    <section className="bg-gray-800 text-white">
-      <h2 className="text-center text-3xl">Choose Your Plan</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <section className="bg-gray-800 text-white py-10 px-25">
+      <h2 className="text-center text-5xl mb-10">Choose Your Plan</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 justify-items-center">
         {pricingGroups.map((group) => (
-          <div key={group.title} className="border rounded-lg p-6 shadow-md">
-            <h4>{group.title}</h4>
-            <ul>
+          <div
+            key={group.title}
+            className="border rounded-lg shadow-md max-w-lg p-6 w-sm"
+          >
+            <h4 className="text-4xl text-center my-4">{group.title}</h4>
+            <ul className="mt-4">
               {group.features.map((feature) => (
-                <p key={feature.label}>{feature.label}</p>
+                <li className="text-center text-lg mb-3" key={feature.label}>
+                  {feature.label}
+                </li>
               ))}
             </ul>
           </div>
