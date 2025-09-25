@@ -1,6 +1,7 @@
 "use client";
 
-import Button from "../Button/Button";
+import { ArrowRightIcon } from "@heroicons/react/16/solid";
+import { ActionButton } from "../Button/ActionButton";
 
 interface PricingGroup {
   title: string;
@@ -21,7 +22,10 @@ const PricingCard = ({ title, features }: PricingGroup) => {
           </li>
         ))}
       </ul>
-      <Button />
+      <ActionButton size="lg" variant="primary" fullWidth>
+        <span className="font-bold">Sign Up</span>
+        <ArrowRightIcon className="size-5 ml-2" />
+      </ActionButton>
     </div>
   );
 };
