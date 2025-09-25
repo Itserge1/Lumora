@@ -1,6 +1,10 @@
 .newssource{
     width: 100%;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .newssource h4{
@@ -16,7 +20,7 @@
     grid-template-columns: repeat(2, 1fr);
     align-items: start;
     place-items: center;
-    background-color: #171717;
+    background-color: var(--secondary-bg-color);
     padding: 0 1rem 0 1.5rem;
 }
 

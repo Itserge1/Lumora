@@ -47,37 +47,43 @@ const Hero = () => {
                 >
                     <SwiperSlide>
                         <div className={`${styles['slide-content']}`}>
-                            <p>Hero Section 1</p>
+                            <h3>Stock News Summaries</h3>
+                            <p>Get bite-sized summaries of the latest stock news in seconds</p>
                         </div>
                     </SwiperSlide>
 
                     <SwiperSlide>
                         <div className={`${styles['slide-content']}`}>
-                            <p>Hero Section 2</p>
+                            <h3>Market Movers Explained</h3>
+                            <p>Understand why your favorite stock is up 📈 or down 📉 today.</p>
                         </div>
                     </SwiperSlide>
 
                     <SwiperSlide>
                         <div className={`${styles['slide-content']}`}>
-                            <h3>Track What moves the Market?</h3>
+                            <h3>Earnings Call Highlights</h3>
+                            <p>Cut through transcripts with concise takeaways that matter</p>
                         </div>
                     </SwiperSlide>
 
                     <SwiperSlide>
                         <div className={`${styles['slide-content']}`}>
-                            <p>Hero Section 4</p>
+                            <h3>Sector & Industry Trends</h3>
+                            <p>Spot which sectors are heating up—or cooling off.</p>
                         </div>
                     </SwiperSlide>
 
                     <SwiperSlide>
                         <div className={`${styles['slide-content']}`}>
-                            <p>Hero Section 5</p>
+                            <h3>Ticker-Based Feeds</h3>
+                            <p>Follow the news that actually matters for your watchlist</p>
                         </div>
                     </SwiperSlide>
 
                     <SwiperSlide>
                         <div className={`${styles['slide-content']}`}>
-                            <p>Hero Section 6</p>
+                            <h3>Sentiment Insights</h3>
+                            <p>See if the news is bullish 🐂 or bearish 🐻 at a glance.</p>
                         </div>
                     </SwiperSlide>
                 </Swiper>

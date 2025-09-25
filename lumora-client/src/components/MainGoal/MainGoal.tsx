@@ -2,13 +2,13 @@
 
 import styles from './MainGoal.module.css'
 import {useState} from "react";
+import clsx from "clsx";
 
 const MainGoal = () => {
     const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
-    const toggleAccordion = (index:number) => {
-        setActiveIndex(index === activeIndex? null: index);
-        // console.log(`clicked ${index}`)
+    const toggleAccordion = (index: number) => {
+        setActiveIndex(index === activeIndex ? null : index);
     }
 
     const items = [
@@ -35,16 +35,16 @@ const MainGoal = () => {
 
     return (
         <section className={styles.maingoal}>
-            <div className={`${styles["maingoal-title"]}`}>
-                <h4>OUR PRODUCT</h4>
+            <div className={clsx(styles["maingoal-title"])}>
+                <h4>OUR PRODUCTS</h4>
             </div>
-            <div className={`${styles["maingoal-wrapper"]}`}>
-                <div className={`${styles["accordion"]} ${styles["container"]}`}>
-                    <div className={`${styles["accordion__container"]}`}>
+            <div className={clsx(styles["maingoal-wrapper"])}>
+                <div className={clsx(styles["accordion"], styles["container"])}>
+                    <div className={clsx(styles["accordion__container"])}>
                         {items.map((item, i) => (
-                            <div key={i} className={`${styles["accordion__item"]}`} onClick={() => toggleAccordion(i)}>
-                                <header className={`${styles["accordion__header"]}`}>
-                                    <h3 className={`${styles["accordion__title"]} ${i === activeIndex ? styles["accordion__title-heavy"] : ""}`}>{item.title}</h3>
+                            <div key={i} className={clsx(styles["accordion__item"])} onClick={() => toggleAccordion(i)}>
+                                <header className={clsx(styles["accordion__header"])}>
+                                    <h3 className={clsx(styles["accordion__title"], i === activeIndex ? styles["accordion__title-heavy"] : "")}>{item.title}</h3>
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          fill="none"
                                          viewBox="0 0 24 24"
@@ -56,16 +56,15 @@ const MainGoal = () => {
                                     </svg>
                                 </header>
 
-                                <div className={`${styles["accordion__content"]} ${i === activeIndex? styles["accordion-open"]:""}`}>
-                                    <p className={`${styles["accordion__description"]}`}>{item.description}</p>
+                                <div
+                                    className={clsx(styles["accordion__content"], i === activeIndex ? styles["accordion-open"] : "")}>
+                                    <p className={clsx(styles["accordion__description"])}>{item.description}</p>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
             </div>
-
-
         </section>
     )
 }
