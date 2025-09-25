@@ -10,7 +10,7 @@ interface PricingGroup {
 
 const PricingCard = ({ title, features }: PricingGroup) => {
   return (
-    <div className="border rounded-3xl border-primary-500 shadow-md max-w-lg p-10 w-sm">
+    <div className="border rounded-3xl border-primary-500 shadow-md max-w-lg p-10 w-sm flex flex-col">
       <h4 className="text-4xl text-center mt-4 font-extrabold">{title}</h4>
       <ul className="my-10">
         {features.map((feature) => (
@@ -22,7 +22,7 @@ const PricingCard = ({ title, features }: PricingGroup) => {
           </li>
         ))}
       </ul>
-      <ActionButton size="lg" variant="primary" fullWidth>
+      <ActionButton size="lg" variant="primary" className="mt-auto" fullWidth>
         <span className="font-bold">Sign Up</span>
         <ArrowRightIcon className="size-5 ml-2" />
       </ActionButton>

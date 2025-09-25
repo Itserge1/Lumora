@@ -23,8 +23,7 @@ export function ActionButton({
   fullWidth = false,
   onClick,
 }: ButtonProps) {
-  const baseClasses =
-    "inline-flex items-center justify-center font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors";
+  const baseClasses = `inline-flex items-center justify-center font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors ${className}`;
 
   const variantClasses = {
     primary:
