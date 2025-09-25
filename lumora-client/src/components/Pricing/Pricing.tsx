@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import Button from "../Button/Button";
 
 interface PricingGroup {
   title: string;
@@ -41,21 +41,29 @@ const Pricing = () => {
 
   return (
     <section className="bg-gray-800 text-white py-10 px-25">
-      <h2 className="text-center text-5xl mb-10">Choose Your Plan</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 justify-items-center">
+      <h2 className="text-center text-5xl font-extrabold tracking-tighter mb-10">
+        Choose Your Plan
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 justify-items-center max-w-10xl">
         {pricingGroups.map((group) => (
           <div
             key={group.title}
-            className="border rounded-lg shadow-md max-w-lg p-6 w-sm"
+            className="border rounded-3xl border-primary-500 shadow-md max-w-lg p-10 w-sm"
           >
-            <h4 className="text-4xl text-center my-4">{group.title}</h4>
-            <ul className="mt-4">
+            <h4 className="text-4xl text-center mt-4 font-extrabold">
+              {group.title}
+            </h4>
+            <ul className="my-10">
               {group.features.map((feature) => (
-                <li className="text-center text-lg mb-3" key={feature.label}>
+                <li
+                  className="text-center text-lg mb-3 pb-3 border-b border-gray-700"
+                  key={feature.label}
+                >
                   {feature.label}
                 </li>
               ))}
             </ul>
+            <Button />
           </div>
         ))}
       </div>

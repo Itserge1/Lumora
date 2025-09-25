@@ -1,5 +1,51 @@
 @import "../../node_modules/tailwindcss";
 
+/* Add this to your globals.css file */
+
+@import "tailwindcss/theme";
+@import "tailwindcss/utilities";
+
+@theme {
+  /* Primary Purple Palette */
+  --color-primary-50: #faf5ff;
+  --color-primary-100: #f3e8ff;
+  --color-primary-200: #e9d5ff;
+  --color-primary-300: #d8b4fe;
+  --color-primary-400: #c084fc;
+  --color-primary-500: #a855f7;
+  --color-primary-600: #9333ea;
+  --color-primary-700: #7c3aed;
+  --color-primary-800: #6b21a8;
+  --color-primary-900: #581c87;
+  --color-primary-950: #3b0764;
+
+  /* Secondary Purple Palette (darker variant) */
+  --color-secondary-50: #f8f4ff;
+  --color-secondary-100: #ede4ff;
+  --color-secondary-200: #ddd0ff;
+  --color-secondary-300: #c2a8ff;
+  --color-secondary-400: #a374ff;
+  --color-secondary-500: #8b46ff;
+  --color-secondary-600: #7c3aed;
+  --color-secondary-700: #6d28d9;
+  --color-secondary-800: #5b21b6;
+  --color-secondary-900: #4c1d95;
+  --color-secondary-950: #2e1065;
+
+  /* Accent Purple Palette (lighter variant) */
+  --color-accent-50: #fdf4ff;
+  --color-accent-100: #fae8ff;
+  --color-accent-200: #f5d0fe;
+  --color-accent-300: #f0abfc;
+  --color-accent-400: #e879f9;
+  --color-accent-500: #d946ef;
+  --color-accent-600: #c026d3;
+  --color-accent-700: #a21caf;
+  --color-accent-800: #86198f;
+  --color-accent-900: #701a75;
+  --color-accent-950: #4a044e;
+}
+
 :root {
   /*====== GENERAL ======*/
   /* colors */
