@@ -1,0 +1,36 @@
+.tickercart{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 9rem;
+    min-height: 3rem;
+    background: rgba(50, 56, 70, 0.5);
+    border: solid .1rem rgba(92, 96, 106);
+    border-radius: 0.5rem;
+    padding: .5rem;
+}
+
+.tickercart__percent-up{
+    color: rgba(102, 229, 151);
+    background-color: rgba(40, 81, 71);
+    padding: 0 .2rem;
+    border-radius: .2rem;
+}
+
+.tickercart__percent-down{
+    color: rgba(239, 115, 108);
+    background-color: rgba(75, 49, 59);
+    padding: 0 .2rem;
+    border-radius: .2rem;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    /* Tablet+ */
+    .tickercart{
+        width: 12rem;
+        justify-content: space-around;
+    }
+}
+
