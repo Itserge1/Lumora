@@ -94,7 +94,47 @@ NEXT_PUBLIC_API_BASE_URL="http://localhost:4000/"
     * Go to the repository on GitHub.
     * Create a Pull Request from your branch into `main`.
 
-5. **PR Workflow & Review**
+5. **Client (PR) Description**
+   Your PR **must** include a clear, well-written description that explains:
+
+    * What you changed
+    * Any dependencies added/removed
+    * Instructions for setup (if needed)
+    * Screenshots or media for UI changes
+
+   Use the following PR template:
+
+   ```markdown
+   ## 📌 Summary
+   <!-- Briefly explain what this PR does -->
+
+   ## 🔗 Related Issue(s)
+   <!-- Link to related issues, e.g., Closes #123 -->
+
+   ## ✨ Changes Made
+   - [ ] Feature: ...
+   - [ ] Bugfix: ...
+   - [ ] Refactor: ...
+   - [ ] Style/UX: ...
+   - [ ] Other: ...
+
+   ## 🧪 Testing
+   <!-- Describe how you tested your changes -->
+   - [ ] Manual testing
+   - [ ] Unit/Integration tests
+   - [ ] Screenshots / GIFs (if applicable)
+
+   ## ⚠️ Impact
+   <!-- Note if there are any breaking changes, dependency updates, or required migrations -->
+   - [ ] Breaking change
+   - [ ] New dependency
+   - [ ] Other impacts: ...
+
+   ## 📸 Screenshots/Media (if applicable)
+   <!-- Add before/after visuals to help reviewers understand changes -->
+   ```
+
+6. **PR Workflow & Review**
 
     * Your PR must pass all automated checks/tests.
     * Each PR requires at least **one approval** before it can be merged into `main`.
