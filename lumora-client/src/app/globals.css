@@ -1,9 +1,67 @@
 @import "../../node_modules/tailwindcss";
-
-/* Add this to your globals.css file */
-
 @import "tailwindcss/theme";
 @import "tailwindcss/utilities";
+
+:root {
+  /* ====== GENERAL ====== */
+  /* colors */
+  --background: #1F2937;
+  --foreground: #ededed;
+  --primary-color: #6054CC;
+  --secondary-bg-color: #111827;
+
+  /* sizes */
+  --breakpoint-sm: 640px;   /* small phones */
+  --breakpoint-md: 768px;   /* tablets */
+  --breakpoint-lg: 1024px;  /* laptops */
+  --breakpoint-xl: 1280px;  /* desktops */
+  --breakpoint-2xl: 1536px; /* big monitors */
+
+  /* Font and Typography */
+
+  /* ====== NAVBAR.MODULE.CSS VARIABLES ====== */
+  /* colors */
+  --navbar-text-color: whitesmoke;
+
+  /* sizes */
+  --navbar-height: 2.5rem;
+  --navbar-padding-y: 1.125rem;
+  --navbar-padding-x: 7rem;
+  --navbar-links-width: 25rem;
+  --navbar-underline-height: 0.1875rem;
+
+  /* ====== BUTTON.MODULE.CSS VARIABLES ====== */
+  /*colors*/
+  --button-bg: #6054CC;
+
+  /* sizes*/
+  --button-gap: 0.2rem;
+  --button-padding-y: 0.4rem;
+  --button-padding-x: 0.2rem;
+  --button-radius: 0.4375rem;
+  --button-text-size: 0.6rem;
+  --button-text-weight: bold;
+  --button-hover-icon-move: 0.3125rem;
+  --button-svg-icon-width: 1.5rem;
+  --button-svg-icon-height: 1.5rem;
+  --button-min-width: 80px;
+
+/* ====== MAINGOAL SECTION (Accordion) ====== */
+  /*Color*/
+  --hue-color: 225;
+
+  --first-color: hsl(var(--hue-color), 48%, 35%);
+  --title-color: hsl(var(--hue-color), 48%, 90%);
+  --text-color: hsl(var(--hue-color), 12%, 80%);
+  --body-color: hsl(var(--hue-color), 48%, 98%);
+  --container-color: #111827;
+
+  /* Font and Typography */
+  --body-font: 'Poppins', sans-serif;
+  --normal-font-size: .938rem ;
+  --small-font-size: .813rem;
+  --smaller-font-size: .75rem;
+}
 
 @theme {
   /* Primary Purple Palette */
@@ -46,68 +104,6 @@
   --color-accent-950: #4a044e;
 }
 
-:root {
-  /*====== GENERAL ======*/
-  /* colors */
-  --primary-color: #6054CC;
-  --background-color: #1F2937;
-  --secondary-bg-color: #111827;
-  --background: #ffffff;
-  --foreground: #171717;
-
-  /* sizes */
-  --breakpoint-sm: 640px;   /* small phones */
-  --breakpoint-md: 768px;   /* tablets */
-  --breakpoint-lg: 1024px;  /* laptops */
-  --breakpoint-xl: 1280px;  /* desktops */
-  --breakpoint-2xl: 1536px; /* big monitors */
-
-  /* ====== NAVBAR.MODULE.CSS VARIABLES ======*/
-  /* colors */
-  --navbar-text-color: whitesmoke;
-
-  /* Navbar sizes */
-  --navbar-height: 2.5rem;
-  --navbar-padding-y: 1.125rem;
-  --navbar-padding-x: 7rem;
-  --navbar-links-width: 25rem;
-  --navbar-underline-height: 0.1875rem;
-
-  /*====== BUTTON.MODULE.CSS VARIABLES ======*/
-  /*colors*/
-  --button-bg: #6054CC;
-
-  /* sizes*/
-  --button-gap: 0.2rem;
-  --button-padding-y: 0.4rem;
-  --button-padding-x: 0.2rem;
-  --button-radius: 0.4375rem;
-  --button-text-size: 0.6rem;
-  --button-text-weight: bold;
-  --button-hover-icon-move: 0.3125rem;
-  --button-svg-icon-width: 1.5rem;
-  --button-svg-icon-height: 1.5rem;
-  --button-min-width: 80px;
-
-
-/*==========================MAINGOAL SECTION (Accordion)=========================*/
-  /*Color*/
-  --hue-color: 225;
-
-  --first-color: hsl(var(--hue-color), 48%, 35%);
-  --title-color: hsl(var(--hue-color), 48%, 90%);
-  --text-color: hsl(var(--hue-color), 12%, 80%);
-  --body-color: hsl(var(--hue-color), 48%, 98%);
-  --container-color: #111827;
-
-  /* Font and Typography */
-  --body-font: 'Poppins', sans-serif;
-
-  --normal-font-size: .938rem ;
-  --small-font-size: .813rem;
-  --smaller-font-size: .75rem;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -115,7 +111,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     --background: #1F2937;
     --foreground: #ededed;
