@@ -10,7 +10,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1rem;
-    background-color: var(--background-color);
+    background-color: var(--background);
 }
 
 .navbar-logo {
@@ -36,7 +36,7 @@
 }
 
 .navbar-toggle {
-    background-color: var(--background-color);
+    background-color: var(--background);
     width: 50%;
     height: 100vh;
     position: fixed;

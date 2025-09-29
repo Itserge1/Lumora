@@ -52,7 +52,7 @@ const Hero = () => {
                     initialSlide={2}
                     loop={true}
                     autoplay={{
-                        delay: 3000, // 3 seconds before auto swipe
+                        delay: 8000, // 8 seconds before auto swipe
                         disableOnInteraction: false, // keep autoplay even after user interacts
                     }}
                     keyboard={{enabled: true}}
