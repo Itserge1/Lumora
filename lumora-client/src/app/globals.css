@@ -63,12 +63,7 @@
   --smaller-font-size: .75rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-
+@theme {
   /* Primary Purple Palette */
   --color-primary-50: #faf5ff;
   --color-primary-100: #f3e8ff;
@@ -107,6 +102,13 @@
   --color-accent-800: #86198f;
   --color-accent-900: #701a75;
   --color-accent-950: #4a044e;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: light) {
