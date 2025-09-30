@@ -23,7 +23,12 @@ const PricingCard = ({ title, features, button }: PricingGroup) => {
           </li>
         ))}
       </ul>
-      <ActionButton size="lg" variant="primary" className="mt-auto" fullWidth>
+      <ActionButton
+        size="lg"
+        variant={title === "Free" ? "secondary" : "primary"}
+        className="mt-auto"
+        fullWidth
+      >
         <span className="font-bold">{button}</span>
         <ArrowRightIcon className="size-5 ml-2" />
       </ActionButton>
