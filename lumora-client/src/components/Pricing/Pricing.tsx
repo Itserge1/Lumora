@@ -10,8 +10,8 @@ interface PricingGroup {
 
 const PricingCard = ({ title, features }: PricingGroup) => {
   return (
-    <div className="border rounded-3xl border-primary-500 shadow-md max-w-lg p-10 w-sm flex flex-col">
-      <h4 className="text-4xl text-center mt-4 font-extrabold">{title}</h4>
+    <div className="border rounded-3xl border-primary-500 shadow-md mb-6 sm:mb-8 md:mb-10 lg:mb-10 p-10 md:p-15 lg:p-10 w-full flex flex-col max-w-lg">
+      <h4 className="text-4xl text-center font-extrabold">{title}</h4>
       <ul className="my-10">
         {features.map((feature) => (
           <li
@@ -63,11 +63,11 @@ const Pricing = () => {
   ];
 
   return (
-    <section className="bg-gray-800 text-white py-10 px-25">
+    <section className="py-10 px-2 lg:px-10 xl:px-25 mx-6 sm:mx-10 md:mx-0">
       <h2 className="text-center text-5xl font-extrabold tracking-tighter mb-10">
         Choose Your Plan
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 justify-items-center max-w-10xl">
+      <div className="grid grid-cols-1 lg:grid-cols-3 justify-items-center max-w-10xl lg:gap-5 xl:gap-10">
         {pricingGroups.map((group) => (
           <PricingCard
             key={group.title}
