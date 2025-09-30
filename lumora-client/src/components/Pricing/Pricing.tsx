@@ -6,9 +6,10 @@ import { ActionButton } from "../Button/ActionButton";
 interface PricingGroup {
   title: string;
   features: Array<{ label: string }>;
+  button: string;
 }
 
-const PricingCard = ({ title, features }: PricingGroup) => {
+const PricingCard = ({ title, features, button }: PricingGroup) => {
   return (
     <div className="border rounded-3xl border-primary-500 shadow-md mb-6 sm:mb-8 md:mb-10 lg:mb-10 p-10 md:p-15 lg:p-10 w-full flex flex-col max-w-lg">
       <h4 className="text-4xl text-center font-extrabold">{title}</h4>
@@ -23,7 +24,7 @@ const PricingCard = ({ title, features }: PricingGroup) => {
         ))}
       </ul>
       <ActionButton size="lg" variant="primary" className="mt-auto" fullWidth>
-        <span className="font-bold">Sign Up</span>
+        <span className="font-bold">{button}</span>
         <ArrowRightIcon className="size-5 ml-2" />
       </ActionButton>
     </div>
@@ -40,6 +41,7 @@ const Pricing = () => {
         { label: "Email alerts" },
         { label: "Daily news digest" },
       ],
+      button: "Get Started",
     },
     {
       title: "Premium",
@@ -49,6 +51,7 @@ const Pricing = () => {
         { label: "Technical analysis" },
         { label: "Retail & Suit Sentiment" },
       ],
+      button: "Start Free Trial",
     },
     {
       title: "Gold",
@@ -59,6 +62,7 @@ const Pricing = () => {
         { label: "Retail & Suit Sentiment" },
         { label: "Short interest" },
       ],
+      button: "Start Free Trial",
     },
   ];
 
@@ -73,6 +77,7 @@ const Pricing = () => {
             key={group.title}
             title={group.title}
             features={group.features}
+            button={group.button}
           />
         ))}
       </div>
