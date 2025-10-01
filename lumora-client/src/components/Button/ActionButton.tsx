@@ -31,7 +31,7 @@ export function ActionButton({
         ? "bg-primary-300 cursor-not-allowed text-white"
         : "bg-primary-500 hover:bg-primary-600 text-white focus:ring-primary-500",
     secondary:
-      "bg-white text-primary-500 border border-primary-500 hover:bg-gray-50 focus:ring-primary-500",
+      "bg-transparent text-primary-500 border border-primary-500 hover:border-primary-600 hover:text-primary-600  hover:shadow-sm hover:shadow-primary-600 focus:ring-primary-500",
   };
 
   const sizeClasses = {
