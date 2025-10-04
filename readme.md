@@ -18,17 +18,9 @@ make smarter investment decisions.
 I’m glad you’re interested! Shoot me a message on Instagram @realItserge with your GitHub's email, and I’ll send you an
 invitation to join as a collaborator.
 
-
-## Infrastructure Later for scaling
-Exactly ✅ — in **AWS Organizations**, the **OU is just a container**.
-The **real isolation** comes from **accounts**.
-
-So yes — in a **production-grade setup**, you would actually **create separate accounts** for each concern:
-
-## current Infrastructure
+## Current Cloud Infrastructure
 
 This is a design off a **lean but production-friendly AWS Org structure** for Lumora with **3 accounts**.
-
 
 ### 🏗️ AWS Organization Structure (Minimal Starter)
 
@@ -80,7 +72,6 @@ Root
     * CloudTrail can be **org-wide** (logs delivered to SharedServices S3 bucket).
     * GuardDuty can be **org-wide** (findings forwarded to SharedServices or Prod).
 
-
 ### ⚖️ Why this works well
 
 * Keeps **cost low** → only 3 accounts.
@@ -90,12 +81,12 @@ Root
     * `Security OU` with LogArchive/Security accounts.
     * Split `Dev` and `Staging` into separate accounts if needed.
 
-
-✅ This is basically the **“startup to small team” best practice**. Enterprises take it further (6–10+ accounts), but for Lumora this is a clean starting point.
-
-
+✅ This is basically the **“startup to small team” best practice**. Enterprises take it further (6–10+ accounts), but for
+Lumora this is a clean starting point.
 
 ### 🏗️ AWS Organization Structure (Future Structure)
+
+The structure bellow is how we plan to scale up our AWS cloud infrastructure later.
 
 ```
 Root
