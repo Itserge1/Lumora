@@ -10,5 +10,5 @@
 *.tfvars
 
 # Vpn client certs file
-client-vpn-profile/*
-easy-rsa-vpn/*
+Administrator-setup/*
+*.ovpn
