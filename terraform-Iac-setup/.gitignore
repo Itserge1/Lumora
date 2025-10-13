@@ -1,0 +1,14 @@
+# local .terraform dir
+.terraform/*
+*.lock.hcl
+
+# tf state files
+*.tfstate
+*.tfstate.*
+
+# tf variable files, may include sensitive data
+*.tfvars
+
+# Vpn client certs file
+Administrator-setup/*
+*.ovpn
