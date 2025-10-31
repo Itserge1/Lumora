@@ -4,7 +4,7 @@ using lumora_backend.Models;
 
 namespace lumora_backend;
 
-public class AutoMapperProfile: Profile
+public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {

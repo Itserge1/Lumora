@@ -17,14 +17,14 @@ public class UserController : ControllerBase
         _logger = logger;
         _userService = userService;
     }
-    
+
     // TEST API
     [HttpGet("testApi")]
     public string TestApi()
     {
         return "Api is working!!";
     }
-    
+
     [HttpPost("add")]
     public ActionResult<ResponseService<GetUserDto>> AddNewUser([FromBody] AddUserDto newUser)
     {

@@ -10,7 +10,7 @@ public class DataContext : DbContext
     // These DbSet properties are used by EF Core to map tables to classes
     public DbSet<User> Users { get; set; }
     public DbSet<Subscription> Subscriptions { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

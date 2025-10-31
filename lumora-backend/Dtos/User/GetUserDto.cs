@@ -11,7 +11,7 @@ public class GetUserDto
     public string? Password { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    
+
     // Subscription Navigation Property: One-to-one relation with Subscription
     public Subscription? MySubscription { get; set; }
 }
