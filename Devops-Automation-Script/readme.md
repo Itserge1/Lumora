@@ -28,8 +28,12 @@ pip install --editable .
 
 Run the CLI command:
 
+```shell
+export AWS_PROFILE=AdministratorAccess-318526443004
+```
+
 ```bash
-devops-auto create-db-creds --dbname lumora
+devops-auto create-db-creds --dbname lumora-dev
 ```
 
 ---

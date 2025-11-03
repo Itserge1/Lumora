@@ -9,10 +9,12 @@ def cli():
     pass
 
 @cli.command()
-@click.option("--dbname", required=True, help="The name of the Database Hosted on AWS")
-def create_db_creds(dbname: str):
+@click.option("--db-name", required=True, help="The name of the Database Hosted on AWS")
+@click.option("--db-username", required=True, help="The username for the Database Hosted on AWS")
+@click.option("--db-password", required=True, help="The password of the Database Hosted on AWS")
+def create_db_creds(db_name: str, db_username: str, db_password: str):
     """Create Database Credentials"""
-    create_rds_db_credentials(dbname)
+    create_rds_db_credentials(db_name, db_username, db_password)
 
 if __name__ == "__main__":
     cli()
