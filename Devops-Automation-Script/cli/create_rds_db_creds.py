@@ -1,4 +1,5 @@
 import boto3
+from botocore.exceptions import ClientError
 import json
 
 def create_rds_db_credentials(db_name, db_username, db_password,  region="us-east-1"):
@@ -23,14 +24,15 @@ def create_rds_db_credentials(db_name, db_username, db_password,  region="us-eas
     secret_client = boto3.client("secretsmanager", region_name=region)
 
     # Prepare Secret Information
-    secret_name = f"{db_name}-credentials"
+    secret_name = f"{db_name}-creds"
     db_instance = db_instances[0]
     secret_value = json.dumps({
         "username": db_username,
         "password": db_password,
+        "engine": db_instance.get("Engine"),
         "host": db_instance.get("Endpoint", {}).get("Address"),
         "port": db_instance.get("Endpoint", {}).get("Port"),
-        "db_name": db_instance.get("DBName")
+        "dbInstanceIdentifier": db_instance.get("DBInstanceIdentifier", db_name)
     })
 
     # Store credentials in AWS Secrets Manager
@@ -45,6 +47,13 @@ def create_rds_db_credentials(db_name, db_username, db_password,  region="us-eas
     except secret_client.exceptions.ResourceExistsException:
         # If secret already exists, do nothing
         print(f"Secret {secret_name} already exists")
+
+    except ClientError as e:
+        if e.response['Error']['Code'] == 'InvalidRequestException' and \
+                'scheduled for deletion' in e.response['Error']['Message']:
+            print(f"Secret {secret_name} already exists and is scheduled for deletion")
+        else:
+            raise e
 
 
 # Make Function to update RDS creds
