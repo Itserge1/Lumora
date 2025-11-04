@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 // Get db Connection string
-var connectionString = await UtilsHelper.BuildConnectionStringAsync(builder.Configuration, "lumora-dev-creds", "DefaultConnection");
+var connectionString = await UtilityHelper.BuildConnectionStringAsync(builder.Configuration, "lumora-dev-creds", "DefaultConnection");
 // Console.WriteLine(connectionString);
 
 // Add DB context with the resolved connection string
