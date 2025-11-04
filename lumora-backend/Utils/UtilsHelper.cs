@@ -16,7 +16,7 @@ namespace lumora_backend.Utils
             {
                 // Build a connection String from aws secrets
                 var connectionString = await awsService.GetConnectionStringFromAwsDbAsync(awsSecretName);
-                
+
                 // Check if the connection string is NOT empty
                 if (!string.IsNullOrWhiteSpace(connectionString))
                 {
@@ -33,7 +33,7 @@ namespace lumora_backend.Utils
                 var fallbackConnection = configuration.GetConnectionString(defaultConnectionName)
                                          ?? throw new InvalidOperationException(
                                              $"Default connection '{defaultConnectionName}' is missing.");
-                
+
                 // Return fallback connection string
                 Console.WriteLine($"Falling back to default DB connection string. Reason: {ex.Message}");
                 return fallbackConnection;

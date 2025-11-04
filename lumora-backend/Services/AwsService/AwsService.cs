@@ -14,17 +14,17 @@ public class AwsService : IAwsService
     public AwsService(string region = "us-east-1")
     {
         var regionEndpoint = RegionEndpoint.GetBySystemName(region);
-        
+
         // Load AWS SSO Profile Credentials
         var chain = new CredentialProfileStoreChain();
         if (!chain.TryGetAWSCredentials("AdministratorAccess-318526443004", out var credentials))
         {
             throw new Exception($"AWS profile AdministratorAccess-318526443004 could not be found or loaded.");
         }
-        
+
         _awsSecretsManagerClient = new AmazonSecretsManagerClient(credentials, regionEndpoint);
     }
-    
+
     // AWS SECRETS
     public async Task<string> GetSecretAsync(string secretName, string region = "us-east-1")
     {
@@ -54,7 +54,7 @@ public class AwsService : IAwsService
             throw new KeyNotFoundException($"The requested secret '{secretName}' was not found.");
         }
     }
-    
+
     public async Task<string> GetConnectionStringFromAwsDbAsync(string secretName)
     {
         // Check if the secret name is empty
@@ -63,7 +63,7 @@ public class AwsService : IAwsService
 
         // Fetch secret from AWS
         var secretString = await GetSecretAsync(secretName);
-        
+
         // Check if the secret value is empty
         if (string.IsNullOrWhiteSpace(secretString))
             throw new InvalidOperationException($"Secret '{secretName}' returned an empty value.");
@@ -80,7 +80,7 @@ public class AwsService : IAwsService
         string connectionString = $"server={dbSecret.Host},{dbSecret.Port};Database={dbSecret.DbInstanceIdentifier};User Id={dbSecret.Username};Password={dbSecret.Password};MultipleActiveResultSets=true;TrustServerCertificate=true;";
         return connectionString;
     }
-    
+
     // public async Task<T?> GetSecretAsync<T>(string secretName)
     // {
     //     var secretString = await GetSecretAsync(secretName);
