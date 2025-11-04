@@ -36,12 +36,12 @@ from [AWS CLI Installation Guide](https://docs.aws.amazon.com/cli/latest/usergui
 
 You’ll need the following information from your AWS administrator or AWS console:
 
-| Detail             | Example                                   |
-|:-------------------|:------------------------------------------|
-| **SSO Start URL**  | `https://my-sso-portal.awsapps.com/start` |
-| **SSO Region**     | `us-east-1`                               |
-| **AWS Account ID** | `999999999999`                            |
-| **Role Name**      | `AdministratorAccess`                     |
+| Detail                             | Example                                   |
+|:-----------------------------------|:------------------------------------------|
+| **SSO session name (Recommended)** | `AdministratorAccess`                     |
+| **SSO Start URL**                  | `https://my-sso-portal.awsapps.com/start` |
+| **SSO Region**                     | `us-east-1`                               |
+| **AWS Account ID**                 | `999999999999`                            |
 
 ### Step 3️⃣ Configure AWS CLI for SSO
 
@@ -116,9 +116,11 @@ Your machine can now securely access AWS using AWS Identity Center credentials.
    snapshot_identifier = "database-test-1-2025-10-04"
    vpn_client_cidr    = "172.16.0.0/19"
    
-   db_username = ""   # Get from your Admin
-   db_password = ""   # Get from your Admin
-   my_ip       = ""   # Your current public IP
+   
+   db_name     = "" # Get from your Admin
+   db_username = "" # Get from your Admin
+   db_password = "" # Get from your Admin
+   my_ip       = "" # Your current public IP (000.00.00.0) follow by /32 (000.00.00.0/32)
    ```
 
    > 💡 **Tip:**
