@@ -1,16 +1,24 @@
-using lumora_backend.Services.UserService;
 using lumora_backend.Data;
+using lumora_backend.Services.UserService;
+using lumora_backend.Services.AwsService;
+using lumora_backend.Utils;
 using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
-// Add DB context - Add Database using "DefaultConnection" from appsettings.Development.json (Dependency Injection)
-builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Get db Connection string
+var connectionString = await UtilsHelper.BuildConnectionStringAsync(builder.Configuration, "lumora-dev-creds", "DefaultConnection");
+// Console.WriteLine(connectionString);
+
+// Add DB context with the resolved connection string
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
 
 // Register services (Like AutoMapper and other custom services)
 builder.Services.AddAutoMapper(_ => { }, AppDomain.CurrentDomain.GetAssemblies()); // register all Automapper Profiles
 builder.Services.AddScoped<IUserService, UserService>(); // Every time we use the IUserService interface, it will use an instance of UserService.
+builder.Services.AddScoped<IAwsService, AwsService>(); // Every time we use the IUserService interface, it will use an instance of UserService.
 
 // Configure CORS Policy
 builder.Services.AddCors(p => p.AddPolicy("cors_policy", build =>
