@@ -2,7 +2,7 @@ using lumora_backend.Services.AwsService;
 
 namespace lumora_backend.Utils
 {
-    public static class UtilsHelper
+    public static class UtilityHelper
     {
         /// Build a database connection string either from  a database secret hosted on AWS Secrets Manager
         /// or falls back to a local default connection string. Then return the Resolved connection string
