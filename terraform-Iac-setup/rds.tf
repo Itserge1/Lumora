@@ -1,4 +1,5 @@
 
+variable "db_name" {}
 variable "db_username" {}
 variable "db_password" {}
 variable "my_ip" {}
@@ -53,7 +54,7 @@ resource "aws_security_group" "rds_sg" {
 }
 
 resource "aws_db_instance" "sql_server" {
-  identifier              = "lumora-dev-db"
+  identifier              = var.db_name
   instance_class          = "db.t3.micro"
   storage_type            = "gp2"
 
@@ -76,7 +77,7 @@ resource "aws_db_instance" "sql_server" {
   deletion_protection     = false
 
   tags = {
-    Name        = "lumora-dev-db"
+    Name        = var.db_name
     Environment = "dev"
   }
 }

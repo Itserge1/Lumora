@@ -1,11 +1,12 @@
 using lumora_backend.Services.UserService;
 using lumora_backend.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 // Add DB context - Add Database using "DefaultConnection" from appsettings.Development.json (Dependency Injection)
-builder.Services.AddDbContext<DataContext>(options => builder.Configuration.GetConnectionString("DefaultConnection"));
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register services (Like AutoMapper and other custom services)
 builder.Services.AddAutoMapper(_ => { }, AppDomain.CurrentDomain.GetAssemblies()); // register all Automapper Profiles
