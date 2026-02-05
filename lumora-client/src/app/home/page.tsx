@@ -14,9 +14,6 @@ import {
     UTCTimestamp,
     ColorType
 } from 'lightweight-charts';
-import {Span} from "next/dist/server/lib/trace/tracer";
-import {tree} from "next/dist/build/templates/app-page";
-
 
 const Home = () => {
     const firstContainer = useRef<HTMLDivElement>(null);
