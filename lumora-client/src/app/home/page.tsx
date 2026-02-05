@@ -7,8 +7,8 @@ import {
     createChart,
     IChartApi,
     AreaSeries,
-    BarSeries,
-    BaselineSeries,
+    // BarSeries,
+    // BaselineSeries,
     CandlestickSeries,
     HistogramSeries,
     UTCTimestamp,
@@ -102,11 +102,7 @@ const Home = () => {
         }
     }, []);
 
-    // const isActive = true;
-    const isActive = false;
     const [activeTab, setActiveTab] = useState('news');
-
-
     return (
         <section className={styles.homePage}>
             <div className={styles["chart__container"]} ref={firstContainer}/>
