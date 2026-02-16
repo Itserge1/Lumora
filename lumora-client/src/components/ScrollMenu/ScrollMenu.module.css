@@ -1,0 +1,99 @@
+.scrollMenu__container{
+    background-color: #1F2937;
+    width: 100vw;
+    height: 20rem;
+}
+
+/*!*======= SCROLL MENU BAR =======*!*/
+.scrollMenu__toggle{
+    background-color: black;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    gap: 2rem; /* Space between tabs */
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth; /* Smooth scrolling */
+     /*Hide scrollbar but keep functionality */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    padding: .5rem 0 1rem 0;
+}
+
+.scrollMenu__toggle::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Opera */
+}
+
+.scrollMenu__toggle span{
+    min-width: calc(25% - 1.7rem); /* 4 items visible (25% each, minus gap) */
+    text-align: center;
+    transition: ease-in-out .5s;
+    position: relative;
+    cursor: pointer;
+    padding: .5rem 0;
+    color: #9CA3AF; /* Inactive color */
+    flex: 1; /* Equal width for each tab */
+}
+
+.scrollMenu__toggle span:hover{
+    color: white;
+}
+
+.scrollMenu__toggle span::before{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background-color: #8b46ff;
+    transition: width 0.5s ease-in-out;
+}
+
+.active::before{
+    width: 100%;
+}
+
+/*!*======= SCROLL MENU CONTENT =======*!*/
+
+.scrollMenu__content{
+    position: relative;
+    height: calc(20rem - 60px);
+    overflow: hidden;
+}
+
+.tab__content{
+    animation: fadeIn 0.4s ease-out; /* Using fadeIn keyframes */
+    /*animation: slideIn 0.4s ease-out; !* Using slideIn keyframes*!*/
+    padding: 1rem;
+    height: 100%;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px); /* negative = from left */
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/*!*@media (min-width: 375px) {*!*/
+/*!*    .chart__container{*!*/
+/*!*        width: 10rem;*!*/
+/*!*        height: 5rem;*!*/
+/*!*    }*!*/
+/*!*}*!*/
