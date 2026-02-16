@@ -10,7 +10,7 @@ const ScrollMenu = () => {
         "news",
         "earning",
         "sentiment",
-        "others1",
+        "others",
     ]
 
     const duplicateHeaders = [...headers, ...headers, ...headers]
@@ -22,7 +22,7 @@ const ScrollMenu = () => {
 
         // Handle scroll
         const handleScroll = () => {
-            const { scrollLeft, scrollWidth, clientWidth} = scrollContainer;
+            const { scrollLeft, scrollWidth} = scrollContainer;
 
             const singleSetWidth = scrollWidth / 3;
             const scrollRepeat = (singleSetWidth * 2)
@@ -50,6 +50,7 @@ const ScrollMenu = () => {
     return (
         <section>
             <div className={styles["scrollMenu__container"]}>
+                {/*================= SCROLL BAR MENU =================*/}
                 <div
                     className={styles["scrollMenu__toggle"]}
                     data-active={activeTab}
@@ -64,38 +65,34 @@ const ScrollMenu = () => {
                         </span>
                     ))}
                 </div>
+
+                {/*================= MENU CONTENT =================*/}
+                <div className={styles["scrollMenu__content"]}>
+                    {activeTab === 'news' && (
+                        <div className={styles["tab__content"]} key="news">
+                            News content here
+                        </div>
+                    )}
+                    {activeTab === 'earning' && (
+                        <div className={styles["tab__content"]} key="earning">
+                            Earning content here
+                        </div>
+                    )}
+                    {activeTab === 'sentiment' && (
+                        <div className={styles["tab__content"]} key="sentiment">
+                            Sentiment content here
+                        </div>
+                    )}
+
+                    {activeTab === 'others' && (
+                        <div className={styles["tab__content"]} key="others">
+                            others content here
+                        </div>
+                    )}
+                </div>
             </div>
         </section>
     )
 }
 
 export default ScrollMenu;
-
-{/*<div className={styles["financialInfos__container__content"]}>*/}
-{/*    <div*/}
-{/*        className={styles["content__slider"]}*/}
-{/*        data-active={activeTab}*/}
-{/*    >*/}
-{/*        <div className={styles["content__slide"]}>News content here</div>*/}
-{/*        <div className={styles["content__slide"]}>Earning content here</div>*/}
-{/*        <div className={styles["content__slide"]}>Sentiment content here</div>*/}
-{/*    </div>*/}
-{/*</div>*/}
-
-{/*<div className={styles["financialInfos__container__content"]}>*/}
-{/*    {activeTab === 'news' && (*/}
-{/*        <div className={styles["tab__content"]} key="news">*/}
-{/*            News content here*/}
-{/*        </div>*/}
-{/*    )}*/}
-{/*    {activeTab === 'earning' && (*/}
-{/*        <div className={styles["tab__content"]} key="earning">*/}
-{/*            Earning content here*/}
-{/*        </div>*/}
-{/*    )}*/}
-{/*    {activeTab === 'sentiment' && (*/}
-{/*        <div className={styles["tab__content"]} key="sentiment">*/}
-{/*            Sentiment content here*/}
-{/*        </div>*/}
-{/*    )}*/}
-{/*</div>*/}
