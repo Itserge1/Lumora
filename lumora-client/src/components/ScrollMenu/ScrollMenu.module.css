@@ -1,0 +1,31 @@
+.scrollMenu__container{
+    background-color: crimson;
+    width: 100vw;
+    height: 20rem;
+}
+
+.scrollMenu__toggle{
+    background-color: #1F2937;
+    display: flex;
+    align-items: center;
+    gap: 2rem; /* Space between tabs */
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth; /* Smooth scrolling */
+     /*Hide scrollbar but keep functionality */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+.scrollMenu__toggle::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Opera */
+}
+
+.scrollMenu__toggle span{
+    /*min-width: calc(25% - 1.5rem); !* 4 items visible (25% each, minus gap) *!*/
+    flex-shrink: 0;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}

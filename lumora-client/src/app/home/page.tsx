@@ -14,6 +14,7 @@ import {
     UTCTimestamp,
     ColorType
 } from 'lightweight-charts';
+import ScrollMenu from "@/components/ScrollMenu/ScrollMenu";
 
 const Home = () => {
     const firstContainer = useRef<HTMLDivElement>(null);
@@ -102,66 +103,10 @@ const Home = () => {
         }
     }, []);
 
-    const [activeTab, setActiveTab] = useState('news');
     return (
         <section className={styles.homePage}>
             <div className={styles["chart__container"]} ref={firstContainer}/>
-            <div className={styles["financialInfos__container"]}>
-                <div
-                    className={styles["financialInfos__container__toggle"]}
-                    data-active={activeTab}
-                >
-                    <span
-                        className={activeTab === 'news' ? styles.active : ''}
-                        onClick={() => setActiveTab('news')}
-                    >
-                        News
-                    </span>
-
-                    <span
-                        className={activeTab === 'earning' ? styles.active : ''}
-                        onClick={() => setActiveTab('earning')}
-                    >
-                        Earning
-                    </span>
-
-                    <span
-                        className={activeTab === 'sentiment' ? styles.active : ''}
-                        onClick={() => setActiveTab('sentiment')}
-                    >
-                        Sentiment
-                    </span>
-                </div>
-
-                {/*<div className={styles["financialInfos__container__content"]}>*/}
-                {/*    <div*/}
-                {/*        className={styles["content__slider"]}*/}
-                {/*        data-active={activeTab}*/}
-                {/*    >*/}
-                {/*        <div className={styles["content__slide"]}>News content here</div>*/}
-                {/*        <div className={styles["content__slide"]}>Earning content here</div>*/}
-                {/*        <div className={styles["content__slide"]}>Sentiment content here</div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-
-                <div className={styles["financialInfos__container__content"]}>
-                    {activeTab === 'news' && (
-                        <div className={styles["tab__content"]} key="news">
-                            News content here
-                        </div>
-                    )}
-                    {activeTab === 'earning' && (
-                        <div className={styles["tab__content"]} key="earning">
-                            Earning content here
-                        </div>
-                    )}
-                    {activeTab === 'sentiment' && (
-                        <div className={styles["tab__content"]} key="sentiment">
-                            Sentiment content here
-                        </div>
-                    )}
-                </div>
-            </div>
+            <ScrollMenu />
         </section>
     )
 }
