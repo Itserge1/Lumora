@@ -1,0 +1,9 @@
+jobs:
+  - job: Test
+    pool:
+      vmImage: 'ubuntu-latest'
+    displayName: 'Run Tests'
+    dependsOn: Lint        # 👈 only runs if lint passes
+    steps:
+      - template: ../steps/install-steps.yml
+      - template: ../steps/test-steps.yml

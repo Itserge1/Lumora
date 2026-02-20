@@ -1,0 +1,30 @@
+{
+  "type": "subscription",
+  "all_users": [
+    {
+      "Names": "Alice",
+      "Ages": 25,
+      "Scores": 85.5
+    },
+    {
+      "Names": "Bob",
+      "Ages": 30,
+      "Scores": 92.3
+    },
+    {
+      "Names": "Charlie",
+      "Ages": 35,
+      "Scores": 78.9
+    },
+    {
+      "Names": "Diana",
+      "Ages": 28,
+      "Scores": 88.7
+    },
+    {
+      "Names": "Eve",
+      "Ages": 32,
+      "Scores": 95.1
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+steps:
+  - script: npm run lint
+    displayName: 'Run Linter'
+
+  - script: npm run format:check
+    displayName: 'Check Code Formatting'

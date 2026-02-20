@@ -1,0 +1,8 @@
+jobs:
+  - job: Lint
+    pool:
+      vmImage: 'ubuntu-latest'
+    displayName: 'Lint & Format Check'
+    steps:
+      - template: ../steps/install-steps.yml
+      - template: ../steps/lint-steps.yml

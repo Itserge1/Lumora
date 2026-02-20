@@ -1,0 +1,11 @@
+# ci-pipeline.yml
+trigger:
+  branches:
+    include:
+      - main
+
+stages:
+  - stage: CI
+    jobs:
+      - template: jobs/build-job.yml
+      - template: jobs/test-job.yml

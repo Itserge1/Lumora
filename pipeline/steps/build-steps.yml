@@ -1,0 +1,17 @@
+# steps/build-steps.yml
+steps:
+  - script: npm run build
+    displayName: 'Build Application'
+
+  - task: CopyFiles@2
+    displayName: 'Copy Build Artifacts'
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)/dist'
+      contents: '**'
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifacts'
+    inputs:
+      pathToPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: 'drop'

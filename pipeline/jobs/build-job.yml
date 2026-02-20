@@ -1,0 +1,8 @@
+# jobs/build-job.yml
+jobs:
+  - job: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - template: ../steps/install-steps.yml
+      - template: ../steps/build-steps.yml
