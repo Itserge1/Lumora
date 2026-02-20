@@ -7,3 +7,15 @@ jobs:
     steps:
       - template: ../steps/install-steps.yml
       - template: ../steps/test-steps.yml
+
+      - name: Get secret from Azure Key Vault
+        uses: Azure/get-keyvault-secrets@v1
+        with:
+          keyvault: 'my-key-vault'
+          secrets: 'API-URL'
+        id: keyvault
+
+      - name: Deploy
+        run: echo "Deploying to $API_URL"
+        env:
+          API_URL: ${{ steps.keyvault.outputs.API-URL }}

@@ -5,7 +5,10 @@ trigger:
       - main
 
 stages:
-  - stage: CI
+  - stage: Build (CI)
     jobs:
-      - template: jobs/build-job.yml
-      - template: jobs/test-job.yml
+        - template: jobs/build-job.yml
+          parameters:
+            publishArtifacts: true         # 👈 publish on CI
+            buildConfiguration: 'Release'
+        - template: jobs/test-job.yml

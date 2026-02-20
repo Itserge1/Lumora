@@ -1,7 +1,15 @@
-# steps/build-steps.yml
+parameters:
+  - name: publishArtifacts
+    type: boolean
+    default: true
+
+  - name: buildConfiguration
+    type: string
+    default: 'Release'
+
 steps:
-  - script: npm run build
-    displayName: 'Build Application'
+  - script: npm run build -- --configuration ${{ parameters.buildConfiguration }}
+    displayName: 'Build Application (${{ parameters.buildConfiguration }})'
 
   - task: CopyFiles@2
     displayName: 'Copy Build Artifacts'
@@ -10,8 +18,9 @@ steps:
       contents: '**'
       targetFolder: '$(Build.ArtifactStagingDirectory)'
 
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifacts'
-    inputs:
-      pathToPublish: '$(Build.ArtifactStagingDirectory)'
-      artifactName: 'drop'
+  - ${{ if eq(parameters.publishArtifacts, true) }}:   # 👈 conditional step
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifacts'
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: 'drop'

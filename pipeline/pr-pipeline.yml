@@ -21,6 +21,14 @@ stages:
       - template: jobs/lint-job.yml
       - template: jobs/test-job.yml
 
+  - stage: Validate
+    displayName: 'Build Debug Artifacts'
+    jobs:
+      - template: jobs/build-job.yml
+        parameters:
+          publishArtifacts: false        # 👈 skip publishing on PR
+          buildConfiguration: 'Debug'
+
   - stage: Security
     displayName: 'Security Checks'
     dependsOn: Validate
