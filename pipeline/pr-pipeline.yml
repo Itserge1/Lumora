@@ -1,0 +1,58 @@
+trigger: none   # 👈 don't trigger on push
+
+pr:
+  branches:
+    include:
+      - main
+      - develop
+  paths:
+    exclude:
+      - README.md
+      - docs/**
+
+variables:
+  - name: isMergeToMain
+    value: ${{ eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/main') }}
+
+stages:
+  - stage: Validate
+    displayName: 'PR Validation'
+    jobs:
+      - template: jobs/lint-job.yml
+      - template: jobs/test-job.yml
+
+  - stage: Validate
+    displayName: 'Build Debug Artifacts'
+    jobs:
+      - template: jobs/build-job.yml
+        parameters:
+          publishArtifacts: false        # 👈 skip publishing on PR
+          buildConfiguration: 'Debug'
+
+  - stage: Security
+    displayName: 'Security Checks'
+    dependsOn: Validate
+    jobs:
+      - job: DependencyScan
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - template: steps/install-steps.yml
+          - script: npm audit --audit-level=high
+            displayName: 'Audit Dependencies'
+
+  - stage: Preview
+    displayName: 'Preview Deploy'
+    dependsOn: Security
+    condition: and(succeeded(), eq(variables.isMergeToMain, 'true'))  # 👈 only when targeting main
+    jobs:
+      - job: DeployPreview
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - template: steps/install-steps.yml
+          - template: steps/build-steps.yml
+          - script: |
+              echo "Deploying PR #$(System.PullRequest.PullRequestNumber) to preview env..."
+              # your deploy script here
+            displayName: 'Deploy to Preview Environment'

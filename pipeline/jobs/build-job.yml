@@ -1,0 +1,21 @@
+# jobs/build-job.yml
+parameters:
+  - name: publishArtifacts
+    type: boolean
+    default: true
+
+  - name: buildConfiguration
+    type: string
+    default: 'Release'
+
+jobs:
+  - job: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - template: ../steps/install-steps.yml
+
+      - template: ../steps/build-steps.yml
+        parameters:
+          publishArtifacts: ${{ parameters.publishArtifacts }}
+          buildConfiguration: ${{ parameters.buildConfiguration }}

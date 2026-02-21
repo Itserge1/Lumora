@@ -1,0 +1,14 @@
+# ci-pipeline.yml
+trigger:
+  branches:
+    include:
+      - main
+
+stages:
+  - stage: Build (CI)
+    jobs:
+        - template: jobs/build-job.yml
+          parameters:
+            publishArtifacts: true         # 👈 publish on CI
+            buildConfiguration: 'Release'
+        - template: jobs/test-job.yml

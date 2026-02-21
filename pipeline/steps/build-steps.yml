@@ -1,0 +1,26 @@
+parameters:
+  - name: publishArtifacts
+    type: boolean
+    default: true
+
+  - name: buildConfiguration
+    type: string
+    default: 'Release'
+
+steps:
+  - script: npm run build -- --configuration ${{ parameters.buildConfiguration }}
+    displayName: 'Build Application (${{ parameters.buildConfiguration }})'
+
+  - task: CopyFiles@2
+    displayName: 'Copy Build Artifacts'
+    inputs:
+      sourceFolder: '$(Build.SourcesDirectory)/dist'
+      contents: '**'
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  - ${{ if eq(parameters.publishArtifacts, true) }}:   # 👈 conditional step
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifacts'
+        inputs:
+          pathToPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactName: 'drop'

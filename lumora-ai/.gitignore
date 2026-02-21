@@ -1,3 +1,8 @@
 .venv
 .idea
 .env
+
+.coverage
+src/lumora_ai.egg-info
+a_openai_keys
+a_openai_keys/*
