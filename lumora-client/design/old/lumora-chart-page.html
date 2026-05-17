@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumora — AAPL Chart</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & VARS ─── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
+
+:root {
+  --bg:       #0b0f14;
+  --surface:  #111820;
+  --surface2: #161e28;
+  --surface3: #1c2535;
+  --border:   #1e2a38;
+  --border2:  #243040;
+  --text:     #dce8f0;
+  --text-mid: #7a94a8;
+  --text-dim: #3a4e60;
+  --green:    #2ec9a0;
+  --green2:   #1a9e78;
+  --red:      #e85d6a;
+  --red2:     #b83a47;
+  --blue:     #4da6e8;
+  --teal:     #2dd4bf;
+  --teal-dim: rgba(45,212,191,0.08);
+  --yellow:   #e8b84d;
+  --nav-h:    56px;
+  --sidebar-w: 260px;
+  --right-w:  320px;
+  --tab-h:    40px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── TOP NAV ─── */
+.topnav {
+  height: var(--nav-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 0;
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-right: 20px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.logo-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 8px var(--teal);
+  animation: blink 2.5s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* Search bar */
+.nav-search {
+  flex: 1;
+  max-width: 340px;
+  position: relative;
+  margin-right: 16px;
+}
+.nav-search input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 7px 12px 7px 34px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text);
+  outline: none;
+  letter-spacing: 0.04em;
+  transition: border-color 0.2s;
+}
+.nav-search input::placeholder { color: var(--text-dim); }
+.nav-search input:focus { border-color: var(--teal); }
+.nav-search-icon {
+  position: absolute;
+  left: 10px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+/* Nav actions */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+.nav-btn {
+  background: none;
+  border: 1px solid var(--border2);
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.nav-btn:hover { border-color: var(--teal); color: var(--teal); }
+.nav-btn.primary {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #080b0f;
+}
+.nav-btn.primary:hover { background: #fff; border-color: #fff; }
+
+.nav-avatar {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal), var(--blue));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #080b0f;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: 8px;
+}
+.nav-hamburger span {
+  display: block; width: 20px; height: 2px;
+  background: var(--text-mid); border-radius: 2px;
+}
+
+/* ─── BODY LAYOUT ─── */
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ─── LEFT SIDEBAR ─── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.sidebar-section {
+  padding: 12px 10px 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 0 4px;
+  margin-bottom: 8px;
+}
+
+/* Watchlist item */
+.wl-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-bottom: 1px;
+}
+.wl-item:hover { background: var(--surface2); }
+.wl-item.active { background: var(--surface3); }
+
+.wl-left { display: flex; align-items: center; gap: 9px; }
+.wl-icon {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.wl-sym {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  margin-bottom: 1px;
+}
+.wl-name {
+  font-size: 10px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+.wl-right { text-align: right; flex-shrink: 0; }
+.wl-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+}
+.wl-chg {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+}
+.up { color: var(--green); }
+.dn { color: var(--red); }
+
+/* mini sparkline using inline svg */
+.wl-spark { display: flex; align-items: center; }
+
+.sidebar-scroll {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.sidebar-scroll::-webkit-scrollbar { display: none; }
+
+/* ─── MAIN CENTER ─── */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* Stock header bar */
+.stock-header {
+  height: 58px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.stock-ticker-badge {
+  background: var(--blue);
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.stock-info { flex: 1; min-width: 0; }
+.stock-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.stock-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
+.stock-price-block { text-align: right; flex-shrink: 0; }
+.stock-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.stock-change-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 2px;
+}
+.stock-chg {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+}
+.stock-mktcap {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+/* Chart toolbar */
+.chart-toolbar {
+  height: 36px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 2px;
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.chart-toolbar::-webkit-scrollbar { display: none; }
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 0 8px;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.toolbar-group:last-child { border-right: none; }
+
+.tb-btn {
+  background: none;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.tb-btn:hover { background: var(--surface3); color: var(--text); }
+.tb-btn.active { background: var(--surface3); color: var(--teal); }
+.tb-btn.indicator { color: var(--text-dim); }
+.tb-btn.indicator:hover { color: var(--yellow); }
+
+/* ─── CHART AREA ─── */
+.chart-area {
+  flex: 1;
+  position: relative;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.chart-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Price scale on right */
+.price-scale {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px 0;
+  background: linear-gradient(to left, var(--bg) 60%, transparent);
+  pointer-events: none;
+  z-index: 5;
+}
+.ps-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--text-dim);
+  text-align: right;
+  padding-right: 6px;
+}
+.ps-label.highlight {
+  background: var(--teal);
+  color: #080b0f;
+  padding: 1px 6px 1px 4px;
+  border-radius: 2px 0 0 2px;
+  font-weight: 700;
+  margin-right: 0;
+}
+.ps-label.highlight-blue {
+  background: var(--blue);
+  color: #fff;
+  padding: 1px 6px 1px 4px;
+  border-radius: 2px 0 0 2px;
+  font-weight: 700;
+}
+
+/* Crosshair tooltip */
+.crosshair-tooltip {
+  position: absolute;
+  top: 12px; left: 12px;
+  background: rgba(17,24,32,0.95);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 10px 14px;
+  pointer-events: none;
+  z-index: 10;
+}
+.ct-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+.ct-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+}
+.ct-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.ct-lbl { color: var(--text-dim); width: 30px; }
+.ct-val { color: var(--text); font-weight: 600; }
+
+/* ─── BOTTOM TABS PANEL ─── */
+.bottom-panel {
+  height: 220px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  background: var(--surface);
+}
+
+.bp-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  height: var(--tab-h);
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.bp-tabs::-webkit-scrollbar { display: none; }
+
+.bp-tab {
+  padding: 0 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  transition: color 0.15s;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+.bp-tab:hover { color: var(--text-mid); }
+.bp-tab.active {
+  color: var(--text);
+}
+.bp-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 12px; right: 12px;
+  height: 2px;
+  background: var(--teal);
+  border-radius: 2px 2px 0 0;
+}
+
+.bp-content {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border2) transparent;
+}
+.bp-content::-webkit-scrollbar { width: 4px; }
+.bp-content::-webkit-scrollbar-track { background: transparent; }
+.bp-content::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+/* Tab panel panes */
+.tab-pane { display: none; height: 100%; }
+.tab-pane.active { display: block; }
+
+/* News cards in bottom panel */
+.news-filter-row {
+  display: flex;
+  gap: 5px;
+  padding: 8px 12px 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--border);
+}
+.news-filter-row::-webkit-scrollbar { display: none; }
+
+.n-chip {
+  flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  color: var(--text-dim);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.n-chip.active {
+  border-color: var(--teal);
+  color: var(--teal);
+  background: var(--teal-dim);
+}
+
+.news-list { padding: 0; }
+
+.news-card {
+  display: flex;
+  gap: 10px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.13s;
+  position: relative;
+}
+.news-card:hover { background: var(--surface2); }
+.news-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 4px; bottom: 4px;
+  width: 2.5px;
+  border-radius: 2px;
+}
+.news-card.bull::before { background: var(--green); }
+.news-card.bear::before { background: var(--red); }
+.news-card.neut::before { background: var(--blue); }
+
+.nc-left { flex: 1; min-width: 0; }
+.nc-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+.nc-src {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.nc-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5px;
+  color: var(--text-dim);
+}
+.nc-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 1.5px 6px;
+  border-radius: 3px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.bull .nc-tag { background: rgba(46,201,160,0.12); color: var(--green); }
+.bear .nc-tag { background: rgba(232,93,106,0.12); color: var(--red); }
+.neut .nc-tag { background: rgba(77,166,232,0.10); color: var(--blue); }
+
+.nc-headline {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nc-excerpt {
+  font-size: 11px;
+  color: var(--text-mid);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Earnings pane */
+.earnings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  margin: 12px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.earn-card {
+  background: var(--bg);
+  padding: 14px 16px;
+}
+.earn-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+.earn-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.earn-sub {
+  font-size: 10px;
+  color: var(--text-mid);
+  margin-top: 2px;
+}
+
+/* Sentiment pane */
+.sentiment-wrap { padding: 12px 14px; }
+.sent-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.sent-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-mid);
+  width: 60px;
+  flex-shrink: 0;
+}
+.sent-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--surface3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.sent-bar { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+.sent-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  width: 36px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ─── RIGHT PANEL ─── */
+.right-panel {
+  width: var(--right-w);
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.rp-header {
+  height: 40px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  flex-shrink: 0;
+}
+.rp-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.rp-scroll {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.rp-scroll::-webkit-scrollbar { display: none; }
+
+/* Key stats */
+.stat-section {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.ss-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(30,42,56,0.6);
+}
+.stat-row:last-child { border-bottom: none; }
+.sr-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+}
+.sr-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Right panel mini news */
+.rp-news-item {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.13s;
+  position: relative;
+}
+.rp-news-item:hover { background: var(--surface2); }
+.rp-news-item::before {
+  content: ''; position: absolute;
+  left: 0; top: 6px; bottom: 6px;
+  width: 2px; border-radius: 2px;
+}
+.rp-news-item.bull::before { background: var(--green); }
+.rp-news-item.bear::before { background: var(--red); }
+.rp-news-item.neut::before { background: var(--blue); }
+
+.rp-ni-top {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.rp-ni-src {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.rp-ni-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+.bull .rp-ni-tag { background: rgba(46,201,160,0.12); color: var(--green); }
+.bear .rp-ni-tag { background: rgba(232,93,106,0.12); color: var(--red); }
+.neut .rp-ni-tag { background: rgba(77,166,232,0.10); color: var(--blue); }
+.rp-ni-hl {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+}
+.rp-ni-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-top: 3px;
+}
+
+/* ─── MOBILE DRAWER ─── */
+.drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 80;
+}
+.drawer-overlay.open { display: block; }
+
+.mobile-drawer {
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  width: 280px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  z-index: 90;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.mobile-drawer.open { transform: translateX(0); }
+
+.drawer-header {
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1200px) {
+  :root { --right-w: 260px; }
+}
+
+@media (max-width: 1024px) {
+  .right-panel { display: none; }
+  .bottom-panel { height: 240px; }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-w: 0px;
+    --nav-h: 52px;
+  }
+  .sidebar { display: none; }
+  .nav-hamburger { display: flex; }
+  .nav-search { max-width: 200px; }
+  .nav-btn:not(.primary) { display: none; }
+  .stock-header { padding: 0 12px; gap: 10px; }
+  .stock-price { font-size: 16px; }
+  .chart-toolbar { padding: 0 8px; }
+  .bottom-panel { height: 260px; }
+  .crosshair-tooltip { display: none; }
+}
+
+@media (max-width: 480px) {
+  .nav-search { display: none; }
+  .nav-logo { font-size: 15px; }
+  .stock-mktcap { display: none; }
+  .bottom-panel { height: 240px; }
+  .bp-tab { padding: 0 14px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a class="nav-logo" href="#">
+    <div class="logo-dot"></div>
+    Lumora
+  </a>
+
+  <div class="nav-search">
+    <span class="nav-search-icon">⌕</span>
+    <input type="text" placeholder="Search symbol... AAPL, TSLA, BTC" />
+  </div>
+
+  <div class="nav-actions">
+    <button class="nav-btn">Watchlist</button>
+    <button class="nav-btn">Screener</button>
+    <button class="nav-btn primary">Free Trial</button>
+    <div class="nav-avatar">JD</div>
+    <div class="nav-hamburger" onclick="toggleDrawer()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE DRAWER OVERLAY -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="drawer-header">
+    <div class="logo-dot"></div>
+    <span style="font-size:15px;font-weight:800;letter-spacing:-0.02em;">Lumora</span>
+  </div>
+  <div style="padding:12px 10px;">
+    <div class="sidebar-label" style="margin-bottom:10px;">Watchlist</div>
+    <!-- same watchlist items cloned for mobile -->
+    <div class="wl-item active">
+      <div class="wl-left">
+        <div class="wl-icon" style="background:rgba(77,166,232,0.15);color:#4da6e8;">A</div>
+        <div><div class="wl-sym">AAPL</div><div class="wl-name">Apple Inc.</div></div>
+      </div>
+      <div class="wl-right">
+        <div class="wl-price">111.26</div>
+        <div class="wl-chg up">+2.15%</div>
+      </div>
+    </div>
+    <div class="wl-item">
+      <div class="wl-left">
+        <div class="wl-icon" style="background:rgba(46,201,160,0.12);color:#2ec9a0;">T</div>
+        <div><div class="wl-sym">TSLA</div><div class="wl-name">Tesla Inc.</div></div>
+      </div>
+      <div class="wl-right">
+        <div class="wl-price">245.80</div>
+        <div class="wl-chg dn">-1.32%</div>
+      </div>
+    </div>
+    <div class="wl-item">
+      <div class="wl-left">
+        <div class="wl-icon" style="background:rgba(232,93,106,0.12);color:#e85d6a;">N</div>
+        <div><div class="wl-sym">NVDA</div><div class="wl-name">Nvidia Corp.</div></div>
+      </div>
+      <div class="wl-right">
+        <div class="wl-price">875.40</div>
+        <div class="wl-chg up">+3.87%</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APP BODY -->
+<div class="app-body">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Watchlist</div>
+      <div class="wl-item active">
+        <div class="wl-left">
+          <div class="wl-icon" style="background:rgba(77,166,232,0.15);color:#4da6e8;">A</div>
+          <div><div class="wl-sym">AAPL</div><div class="wl-name">Apple Inc.</div></div>
+        </div>
+        <div class="wl-right">
+          <div class="wl-price">111.26</div>
+          <div class="wl-chg up">+2.15%</div>
+        </div>
+      </div>
+      <div class="wl-item">
+        <div class="wl-left">
+          <div class="wl-icon" style="background:rgba(46,201,160,0.12);color:#2ec9a0;">T</div>
+          <div><div class="wl-sym">TSLA</div><div class="wl-name">Tesla Inc.</div></div>
+        </div>
+        <div class="wl-right">
+          <div class="wl-price">245.80</div>
+          <div class="wl-chg dn">-1.32%</div>
+        </div>
+      </div>
+      <div class="wl-item">
+        <div class="wl-left">
+          <div class="wl-icon" style="background:rgba(232,93,106,0.12);color:#e85d6a;">N</div>
+          <div><div class="wl-sym">NVDA</div><div class="wl-name">Nvidia Corp.</div></div>
+        </div>
+        <div class="wl-right">
+          <div class="wl-price">875.40</div>
+          <div class="wl-chg up">+3.87%</div>
+        </div>
+      </div>
+      <div class="wl-item">
+        <div class="wl-left">
+          <div class="wl-icon" style="background:rgba(232,184,77,0.12);color:#e8b84d;">M</div>
+          <div><div class="wl-sym">MSFT</div><div class="wl-name">Microsoft</div></div>
+        </div>
+        <div class="wl-right">
+          <div class="wl-price">415.22</div>
+          <div class="wl-chg up">+0.91%</div>
+        </div>
+      </div>
+      <div class="wl-item">
+        <div class="wl-left">
+          <div class="wl-icon" style="background:rgba(77,166,232,0.10);color:#4da6e8;">A</div>
+          <div><div class="wl-sym">AMZN</div><div class="wl-name">Amazon.com</div></div>
+        </div>
+        <div class="wl-right">
+          <div class="wl-price">186.44</div>
+          <div class="wl-chg dn">-0.54%</div>
+        </div>
+      </div>
+      <div class="wl-item">
+        <div class="wl-left">
+          <div class="wl-icon" style="background:rgba(46,201,160,0.10);color:#2ec9a0;">G</div>
+          <div><div class="wl-sym">GOOGL</div><div class="wl-name">Alphabet Inc.</div></div>
+        </div>
+        <div class="wl-right">
+          <div class="wl-price">172.10</div>
+          <div class="wl-chg up">+1.24%</div>
+        </div>
+      </div>
+      <div class="wl-item">
+        <div class="wl-left">
+          <div class="wl-icon" style="background:rgba(45,212,191,0.10);color:#2dd4bf;">M</div>
+          <div><div class="wl-sym">META</div><div class="wl-name">Meta Platforms</div></div>
+        </div>
+        <div class="wl-right">
+          <div class="wl-price">508.77</div>
+          <div class="wl-chg up">+2.03%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section" style="border-bottom:none;flex:1;">
+      <div class="sidebar-label">Market</div>
+      <div style="padding:4px 0;">
+        <div class="wl-item">
+          <div class="wl-left"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--text-mid);">SPY</div></div>
+          <div class="wl-right"><div class="wl-price" style="font-size:10px;">521.34</div><div class="wl-chg up" style="font-size:9px;">+0.44%</div></div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-left"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--text-mid);">QQQ</div></div>
+          <div class="wl-right"><div class="wl-price" style="font-size:10px;">449.18</div><div class="wl-chg up" style="font-size:9px;">+0.78%</div></div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-left"><div style="font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--text-mid);">VIX</div></div>
+          <div class="wl-right"><div class="wl-price" style="font-size:10px;">18.42</div><div class="wl-chg dn" style="font-size:9px;">-3.21%</div></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CENTER MAIN -->
+  <main class="main">
+
+    <!-- Stock Header -->
+    <div class="stock-header">
+      <div class="stock-ticker-badge">AAPL</div>
+      <div class="stock-info">
+        <div class="stock-name">Apple Inc.</div>
+        <div class="stock-meta">NASDAQ · EQUITY · US</div>
+      </div>
+      <div class="stock-price-block">
+        <div class="stock-price">111.26</div>
+        <div class="stock-change-row">
+          <span class="stock-chg up">▲ +2.34 (2.15%)</span>
+          <span class="stock-mktcap">Mkt Cap: $1.72T</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart Toolbar -->
+    <div class="chart-toolbar">
+      <div class="toolbar-group">
+        <button class="tb-btn">1D</button>
+        <button class="tb-btn">5D</button>
+        <button class="tb-btn active">1M</button>
+        <button class="tb-btn">3M</button>
+        <button class="tb-btn">6M</button>
+        <button class="tb-btn">1Y</button>
+        <button class="tb-btn">5Y</button>
+      </div>
+      <div class="toolbar-group">
+        <button class="tb-btn active">Candle</button>
+        <button class="tb-btn">Line</button>
+        <button class="tb-btn">Area</button>
+        <button class="tb-btn">Bar</button>
+      </div>
+      <div class="toolbar-group">
+        <button class="tb-btn indicator">+ Indicators</button>
+        <button class="tb-btn indicator" style="color:var(--yellow);">MA(20)</button>
+        <button class="tb-btn indicator" style="color:var(--blue);">Vol</button>
+        <button class="tb-btn indicator" style="color:var(--green);">RSI</button>
+      </div>
+      <div class="toolbar-group" style="border:none;">
+        <button class="tb-btn">Compare</button>
+        <button class="tb-btn">⤢ Full</button>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-area" id="chartArea">
+
+      <!-- Crosshair tooltip -->
+      <div class="crosshair-tooltip">
+        <div class="ct-date">Jan 15, 2022 · 1D</div>
+        <div class="ct-row"><div class="ct-dot" style="background:#2ec9a0;"></div><span class="ct-lbl">Open</span><span class="ct-val">109.40</span></div>
+        <div class="ct-row"><div class="ct-dot" style="background:#e8b84d;"></div><span class="ct-lbl">High</span><span class="ct-val">114.12</span></div>
+        <div class="ct-row"><div class="ct-dot" style="background:#e85d6a;"></div><span class="ct-lbl">Low</span><span class="ct-val">107.83</span></div>
+        <div class="ct-row"><div class="ct-dot" style="background:#4da6e8;"></div><span class="ct-lbl">Close</span><span class="ct-val">111.26</span></div>
+        <div class="ct-row"><div class="ct-dot" style="background:var(--text-dim);"></div><span class="ct-lbl">Vol</span><span class="ct-val">89.4M</span></div>
+      </div>
+
+      <!-- Price scale -->
+      <div class="price-scale" id="priceScale">
+        <div class="ps-label">170.00</div>
+        <div class="ps-label">160.00</div>
+        <div class="ps-label">150.00</div>
+        <div class="ps-label">140.00</div>
+        <div class="ps-label">130.00</div>
+        <div class="ps-label">120.00</div>
+        <div class="ps-label highlight">111.26</div>
+        <div class="ps-label">100.00</div>
+        <div class="ps-label">90.00</div>
+        <div class="ps-label">80.00</div>
+        <div class="ps-label">70.00</div>
+        <div class="ps-label">60.00</div>
+        <div class="ps-label highlight-blue">56.00</div>
+        <div class="ps-label">50.00</div>
+        <div class="ps-label">40.00</div>
+        <div class="ps-label highlight" style="background:var(--blue);color:#fff;">22.67</div>
+        <div class="ps-label">10.00</div>
+        <div class="ps-label">0.00</div>
+        <div class="ps-label" style="color:var(--red);">-10.00</div>
+        <div class="ps-label" style="color:var(--red);">-20.00</div>
+      </div>
+
+      <!-- Main chart canvas -->
+      <canvas class="chart-canvas" id="mainChart"></canvas>
+    </div>
+
+    <!-- Bottom Panel -->
+    <div class="bottom-panel">
+      <div class="bp-tabs">
+        <div class="bp-tab active" onclick="switchTab('news', this)">News</div>
+        <div class="bp-tab" onclick="switchTab('earning', this)">Earnings</div>
+        <div class="bp-tab" onclick="switchTab('sentiment', this)">Sentiment</div>
+        <div class="bp-tab" onclick="switchTab('others', this)">Others</div>
+      </div>
+
+      <div class="bp-content">
+        <!-- NEWS PANE -->
+        <div class="tab-pane active" id="pane-news">
+          <div class="news-filter-row">
+            <div class="n-chip active">All</div>
+            <div class="n-chip">Bullish</div>
+            <div class="n-chip">Bearish</div>
+            <div class="n-chip">Analyst</div>
+            <div class="n-chip">Macro</div>
+            <div class="n-chip">Earnings</div>
+          </div>
+          <div class="news-list">
+            <div class="news-card bull">
+              <div class="nc-left">
+                <div class="nc-top">
+                  <span class="nc-src">Bloomberg</span>
+                  <span class="nc-time">· 34m</span>
+                  <span class="nc-tag">Bullish</span>
+                </div>
+                <div class="nc-headline">Apple Reports Record Q4 Revenue, Beats Analyst Forecasts by Wide Margin</div>
+                <div class="nc-excerpt">iPhone sales surge 18% YoY as emerging markets drive demand, pushing revenue to $123.9B</div>
+              </div>
+            </div>
+            <div class="news-card bear">
+              <div class="nc-left">
+                <div class="nc-top">
+                  <span class="nc-src">WSJ</span>
+                  <span class="nc-time">· 2h</span>
+                  <span class="nc-tag">Bearish</span>
+                </div>
+                <div class="nc-headline">EU Antitrust Regulators Open New Probe Into Apple App Store Fees</div>
+                <div class="nc-excerpt">Investigation could result in fines up to 10% of global annual revenue if violations confirmed</div>
+              </div>
+            </div>
+            <div class="news-card neut">
+              <div class="nc-left">
+                <div class="nc-top">
+                  <span class="nc-src">Reuters</span>
+                  <span class="nc-time">· 5h</span>
+                  <span class="nc-tag">Neutral</span>
+                </div>
+                <div class="nc-headline">Apple Announces Strategic Partnership With TSMC for Next-Gen 2nm Chips</div>
+                <div class="nc-excerpt">Multi-year supply agreement aims to secure chip production through 2028</div>
+              </div>
+            </div>
+            <div class="news-card bull">
+              <div class="nc-left">
+                <div class="nc-top">
+                  <span class="nc-src">Seeking Alpha</span>
+                  <span class="nc-time">· 8h</span>
+                  <span class="nc-tag">Bullish</span>
+                </div>
+                <div class="nc-headline">Morgan Stanley Raises AAPL Price Target to $230, Cites AI Supercycle</div>
+                <div class="nc-excerpt">iPhone 17 AI features could trigger the largest upgrade cycle in Apple's history</div>
+              </div>
+            </div>
+            <div class="news-card bear">
+              <div class="nc-left">
+                <div class="nc-top">
+                  <span class="nc-src">FT</span>
+                  <span class="nc-time">· 1d</span>
+                  <span class="nc-tag">Bearish</span>
+                </div>
+                <div class="nc-headline">China iPhone Sales Drop 10% Amid Growing Huawei Competition</div>
+                <div class="nc-excerpt">Market share losses accelerate as domestic brands close the gap on premium devices</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EARNINGS PANE -->
+        <div class="tab-pane" id="pane-earning">
+          <div class="earnings-grid">
+            <div class="earn-card">
+              <div class="earn-label">EPS Actual</div>
+              <div class="earn-val" style="color:var(--green);">$2.18</div>
+              <div class="earn-sub">Beat by +$0.14</div>
+            </div>
+            <div class="earn-card">
+              <div class="earn-label">EPS Estimate</div>
+              <div class="earn-val">$2.04</div>
+              <div class="earn-sub">Consensus</div>
+            </div>
+            <div class="earn-card">
+              <div class="earn-label">Revenue</div>
+              <div class="earn-val" style="color:var(--green);">$123.9B</div>
+              <div class="earn-sub">+8.1% YoY</div>
+            </div>
+            <div class="earn-card">
+              <div class="earn-label">Next Earnings</div>
+              <div class="earn-val">Apr 28</div>
+              <div class="earn-sub">~67 days away</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SENTIMENT PANE -->
+        <div class="tab-pane" id="pane-sentiment">
+          <div class="sentiment-wrap">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px;">Aggregate Sentiment · AAPL · 7D</div>
+            <div class="sent-row">
+              <span class="sent-label">Bullish</span>
+              <div class="sent-bar-wrap"><div class="sent-bar" style="width:68%;background:var(--green);"></div></div>
+              <span class="sent-val" style="color:var(--green);">68%</span>
+            </div>
+            <div class="sent-row">
+              <span class="sent-label">Bearish</span>
+              <div class="sent-bar-wrap"><div class="sent-bar" style="width:22%;background:var(--red);"></div></div>
+              <span class="sent-val" style="color:var(--red);">22%</span>
+            </div>
+            <div class="sent-row">
+              <span class="sent-label">Neutral</span>
+              <div class="sent-bar-wrap"><div class="sent-bar" style="width:10%;background:var(--blue);"></div></div>
+              <span class="sent-val" style="color:var(--blue);">10%</span>
+            </div>
+            <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:16px;">
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:3px;letter-spacing:0.06em;">ARTICLES TODAY</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--text);">24</div>
+              </div>
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:3px;letter-spacing:0.06em;">7D SCORE</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--green);">+0.68</div>
+              </div>
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-dim);margin-bottom:3px;letter-spacing:0.06em;">TREND</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--green);">↑ Rising</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- OTHERS PANE -->
+        <div class="tab-pane" id="pane-others">
+          <div style="padding:12px 14px;">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px;">SEC Filings & Analyst Ratings</div>
+            <div class="news-card neut" style="margin-bottom:6px;border-radius:6px;">
+              <div class="nc-left">
+                <div class="nc-top"><span class="nc-src">SEC</span><span class="nc-time">· 10-Q · 3d</span><span class="nc-tag">Filing</span></div>
+                <div class="nc-headline">Apple Inc. — Quarterly Report (10-Q) Q4 2022</div>
+              </div>
+            </div>
+            <div class="news-card bull" style="margin-bottom:6px;border-radius:6px;">
+              <div class="nc-left">
+                <div class="nc-top"><span class="nc-src">Goldman Sachs</span><span class="nc-time">· 5d</span><span class="nc-tag">Upgrade</span></div>
+                <div class="nc-headline">Rating Upgraded: Neutral → Buy · PT $225</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- RIGHT PANEL -->
+  <aside class="right-panel">
+    <div class="rp-header">
+      <span class="rp-title">// Key Statistics</span>
+    </div>
+    <div class="rp-scroll">
+      <div class="stat-section">
+        <div class="ss-title">Price Info</div>
+        <div class="stat-row"><span class="sr-lbl">Open</span><span class="sr-val">109.40</span></div>
+        <div class="stat-row"><span class="sr-lbl">High</span><span class="sr-val" style="color:var(--green);">114.12</span></div>
+        <div class="stat-row"><span class="sr-lbl">Low</span><span class="sr-val" style="color:var(--red);">107.83</span></div>
+        <div class="stat-row"><span class="sr-lbl">Prev Close</span><span class="sr-val">108.92</span></div>
+        <div class="stat-row"><span class="sr-lbl">Volume</span><span class="sr-val">89.4M</span></div>
+        <div class="stat-row"><span class="sr-lbl">Avg Vol</span><span class="sr-val">72.1M</span></div>
+      </div>
+      <div class="stat-section">
+        <div class="ss-title">Fundamentals</div>
+        <div class="stat-row"><span class="sr-lbl">Mkt Cap</span><span class="sr-val">$1.72T</span></div>
+        <div class="stat-row"><span class="sr-lbl">P/E</span><span class="sr-val">28.4x</span></div>
+        <div class="stat-row"><span class="sr-lbl">EPS (TTM)</span><span class="sr-val">$6.11</span></div>
+        <div class="stat-row"><span class="sr-lbl">52W High</span><span class="sr-val" style="color:var(--green);">$134.50</span></div>
+        <div class="stat-row"><span class="sr-lbl">52W Low</span><span class="sr-val" style="color:var(--red);">$74.16</span></div>
+        <div class="stat-row"><span class="sr-lbl">Div Yield</span><span class="sr-val">0.57%</span></div>
+        <div class="stat-row"><span class="sr-lbl">Beta</span><span class="sr-val">1.28</span></div>
+      </div>
+      <div class="stat-section" style="border-bottom:none;">
+        <div class="ss-title">Latest News</div>
+        <div class="rp-news-item bull">
+          <div class="rp-ni-top">
+            <span class="rp-ni-src">Bloomberg</span>
+            <span class="rp-ni-tag">Bullish</span>
+          </div>
+          <div class="rp-ni-hl">Apple Q4 Revenue Smashes Analyst Forecasts</div>
+          <div class="rp-ni-time">34 minutes ago</div>
+        </div>
+        <div class="rp-news-item bear">
+          <div class="rp-ni-top">
+            <span class="rp-ni-src">WSJ</span>
+            <span class="rp-ni-tag">Bearish</span>
+          </div>
+          <div class="rp-ni-hl">EU Opens Antitrust Probe Into App Store Fees</div>
+          <div class="rp-ni-time">2 hours ago</div>
+        </div>
+        <div class="rp-news-item neut">
+          <div class="rp-ni-top">
+            <span class="rp-ni-src">Reuters</span>
+            <span class="rp-ni-tag">Neutral</span>
+          </div>
+          <div class="rp-ni-hl">Apple-TSMC 2nm Chip Partnership Confirmed</div>
+          <div class="rp-ni-time">5 hours ago</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<script>
+/* ─── DRAW CHART ─── */
+function drawChart() {
+  const canvas = document.getElementById('mainChart');
+  const container = document.getElementById('chartArea');
+  if (!canvas || !container) return;
+
+  canvas.width = container.clientWidth - 64;
+  canvas.height = container.clientHeight;
+
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+
+  // Background
+  ctx.fillStyle = '#0b0f14';
+  ctx.fillRect(0, 0, W, H);
+
+  // Price range
+  const priceMin = -20;
+  const priceMax = 170;
+  const priceRange = priceMax - priceMin;
+  const splitY = H * 0.72; // main chart / volume split
+
+  function priceToY(p) {
+    // Only map to upper portion
+    return splitY - ((p - priceMin) / priceRange) * splitY;
+  }
+
+  // Grid lines
+  const gridPrices = [170,160,150,140,130,120,110.26,100,90,80,70,60,56,50,40,22.67,10,0,-10,-20];
+  gridPrices.forEach(p => {
+    const y = priceToY(p);
+    if (y < 0 || y > splitY) return;
+    ctx.beginPath();
+    ctx.strokeStyle = p === 110.26 || p === 56 || p === 22.67 ? 'rgba(45,212,191,0.15)' : 'rgba(30,42,56,0.7)';
+    ctx.lineWidth = p === 110.26 ? 1 : 0.5;
+    ctx.setLineDash(p === 110.26 || p === 56 || p === 22.67 ? [4,4] : []);
+    ctx.moveTo(0, y);
+    ctx.lineTo(W, y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  });
+
+  // Vertical grid (time)
+  const vLines = 8;
+  for (let i = 1; i < vLines; i++) {
+    const x = (W / vLines) * i;
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(30,42,56,0.5)';
+    ctx.lineWidth = 0.5;
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, H);
+    ctx.stroke();
+  }
+
+  // ── Candlestick data (representative of screenshot) ──
+  // Prices normalized to fit chart: range ~55-135 in display
+  const candles = [
+    // [open, high, low, close, isGreen]
+    [72, 76, 65, 68, false],
+    [68, 72, 62, 70, true],
+    [70, 74, 67, 72, true],
+    [72, 75, 68, 69, false],
+    [69, 73, 66, 71, true],
+    [71, 77, 68, 74, true],
+    [74, 79, 71, 73, false],
+    [73, 78, 70, 76, true],
+    [76, 82, 74, 80, true],
+    [80, 86, 77, 78, false],
+    [78, 83, 75, 82, true],
+    [82, 91, 79, 88, true],
+    [88, 95, 85, 92, true],
+    [92, 98, 88, 90, false],
+    [90, 100, 87, 97, true],
+    [97, 112, 94, 108, true],
+    [108, 130, 105, 125, true],
+    [125, 135, 110, 112, false],
+    [112, 120, 105, 108, false],
+    [108, 118, 103, 115, true],
+    [115, 122, 108, 110, false],
+    [110, 116, 105, 111, true],
+    [111, 118, 107, 108, false],
+    [108, 114, 104, 109, true],
+  ];
+
+  const padding = 30;
+  const candleAreaW = W - padding;
+  const candleW = (candleAreaW / candles.length) * 0.6;
+  const candleSpacing = candleAreaW / candles.length;
+
+  candles.forEach((c, i) => {
+    const x = padding + i * candleSpacing + candleSpacing / 2;
+    const oY = priceToY(c[0]);
+    const hY = priceToY(c[1]);
+    const lY = priceToY(c[2]);
+    const cY = priceToY(c[3]);
+    const isGreen = c[4];
+
+    const color = isGreen ? '#2ec9a0' : '#e85d6a';
+    const bodyTop = Math.min(oY, cY);
+    const bodyH = Math.max(Math.abs(cY - oY), 2);
+
+    // Wick
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.5;
+    ctx.moveTo(x, hY);
+    ctx.lineTo(x, lY);
+    ctx.stroke();
+
+    // Body
+    ctx.fillStyle = color;
+    ctx.fillRect(x - candleW / 2, bodyTop, candleW, bodyH);
+  });
+
+  // ── Volume bars ──
+  const volH = H - splitY - 8;
+  const maxVol = 100;
+  const vols = [40,35,42,38,45,50,43,55,60,48,52,70,85,72,80,95,100,88,75,65,60,55,50,45];
+
+  vols.forEach((v, i) => {
+    const x = padding + i * candleSpacing + candleSpacing / 2;
+    const isGreen = candles[i][4];
+    const barH = (v / maxVol) * volH * 0.9;
+    ctx.fillStyle = isGreen ? 'rgba(46,201,160,0.45)' : 'rgba(232,93,106,0.45)';
+    ctx.fillRect(x - candleW / 2, H - barH - 4, candleW, barH);
+  });
+
+  // ── MA line (20) ──
+  const maData = candles.map((c, i) => {
+    if (i < 5) return null;
+    const slice = candles.slice(Math.max(0, i - 10), i + 1);
+    return slice.reduce((s, d) => s + d[3], 0) / slice.length;
+  });
+
+  ctx.beginPath();
+  ctx.strokeStyle = '#e8b84d';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([]);
+  let started = false;
+  maData.forEach((v, i) => {
+    if (v === null) return;
+    const x = padding + i * candleSpacing + candleSpacing / 2;
+    const y = priceToY(v);
+    if (!started) { ctx.moveTo(x, y); started = true; }
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // ── Volume area baseline ──
+  ctx.beginPath();
+  ctx.strokeStyle = 'rgba(30,42,56,0.8)';
+  ctx.lineWidth = 1;
+  ctx.moveTo(0, splitY + 4);
+  ctx.lineTo(W, splitY + 4);
+  ctx.stroke();
+
+  // ── Time axis labels ──
+  const timeLabels = ['', '', '', '', '', '', '', 'Jan 22', '', '', '', '', '', '', '2022', '', '', '', '', '', '', 'Jan 23', '', ''];
+  ctx.font = "9px 'JetBrains Mono'";
+  ctx.fillStyle = '#3a4e60';
+  ctx.textAlign = 'center';
+  timeLabels.forEach((lbl, i) => {
+    if (!lbl) return;
+    const x = padding + i * candleSpacing + candleSpacing / 2;
+    ctx.fillText(lbl, x, H - 4);
+  });
+}
+
+window.addEventListener('resize', drawChart);
+window.addEventListener('load', drawChart);
+
+/* ─── TAB SWITCHING ─── */
+function switchTab(id, el) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.bp-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('pane-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+/* ─── MOBILE DRAWER ─── */
+function toggleDrawer() {
+  document.getElementById('mobileDrawer').classList.toggle('open');
+  document.getElementById('drawerOverlay').classList.toggle('open');
+}
+function closeDrawer() {
+  document.getElementById('mobileDrawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+}
+
+/* ─── TOOLBAR BUTTON INTERACTIONS ─── */
+document.querySelectorAll('.toolbar-group').forEach(group => {
+  group.querySelectorAll('.tb-btn:not(.indicator)').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('.tb-btn:not(.indicator)').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+});
+
+/* ─── WATCHLIST ITEM INTERACTIONS ─── */
+document.querySelectorAll('.wl-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.wl-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+/* ─── FILTER CHIPS ─── */
+document.querySelectorAll('.n-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    chip.closest('.news-filter-row').querySelectorAll('.n-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

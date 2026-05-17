@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LUMORA | Institutional Grade Market Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#df7412",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-container-highest": "#32353c",
+                        "on-tertiary": "#502400",
+                        "surface": "#111827",
+                        "on-primary-fixed": "#001a42",
+                        "surface-container-low": "#191b23",
+                        "secondary": "#8B5CF6",
+                        "surface-tint": "#3B82F6",
+                        "on-tertiary-fixed": "#311400",
+                        "on-primary-container": "#00285d",
+                        "on-background": "#e1e2ec",
+                        "tertiary": "#ffb786",
+                        "on-surface": "#e1e2ec",
+                        "on-secondary-container": "#c4abff",
+                        "primary": "#3B82F6",
+                        "secondary-container": "#571bc1",
+                        "secondary-fixed": "#e9ddff",
+                        "on-surface-variant": "#9ca3af",
+                        "surface-dim": "#10131a",
+                        "inverse-surface": "#e1e2ec",
+                        "surface-container-high": "#1F2937",
+                        "surface-container-lowest": "#0B0F19",
+                        "outline-variant": "#374151",
+                        "background": "#0B0F19",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "error-container": "#93000a",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "error": "#ef4444",
+                        "inverse-primary": "#005ac2",
+                        "primary-container": "#1e3a8a",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#ffdcc6",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#1f2937",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#363941",
+                        "surface-container": "#111827",
+                        "on-secondary-fixed": "#23005c",
+                        "inverse-on-surface": "#2e3038",
+                        "on-tertiary-container": "#461f00",
+                        "primary-fixed-dim": "#adc6ff",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "outline": "#4b5563",
+                        "market-bull": "#10b981",
+                        "market-bear": "#ef4444"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "2xl": "48px",
+                        "container-max": "1280px",
+                        "xl": "32px",
+                        "sm": "12px",
+                        "gutter": "24px",
+                        "3xl": "64px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["JetBrains Mono"],
+                        "label-md": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Sora"],
+                        "headline-lg": ["Sora"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Sora"],
+                        "mono-label": ["JetBrains Mono"],
+                        "mono-data": ["JetBrains Mono"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(55, 65, 81, 0.5);
+        }
+        .ai-glow {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+        }
+        .ai-border-shimmer {
+            position: relative;
+        }
+        .ai-border-shimmer::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+            z-index: -1;
+            border-radius: inherit;
+        }
+        body {
+            background-color: #0B0F19;
+            color: #e1e2ec;
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, .font-display-lg, .font-headline-lg, .font-title-md {
+            font-family: 'Sora', sans-serif;
+        }
+        .font-mono-label, .font-mono-data {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .ticker-wrap {
+            overflow: hidden;
+        }
+        .ticker-move {
+            display: flex;
+            width: fit-content;
+            animation: ticker 40s linear infinite;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body class="text-base">
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed w-full top-0 z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30">
+<nav class="flex items-center justify-between px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="text-3xl font-extrabold tracking-tighter text-primary">LUMORA</div>
+<div class="hidden md:flex gap-8">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 text-sm uppercase tracking-wider" href="#">Features</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 text-sm uppercase tracking-wider" href="#">Intelligence</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 text-sm uppercase tracking-wider" href="#">Pricing</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 text-sm uppercase tracking-wider" href="#">Markets</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 text-sm uppercase tracking-wider">Login</button>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-none text-sm font-bold uppercase tracking-wider active:scale-95 transition-all">Get Terminal</button>
+</div>
+</nav>
+</header>
+<main class="pt-24">
+<!-- 1. Hero Section -->
+<section class="px-margin-desktop max-w-container-max mx-auto py-20 lg:py-32">
+<div class="grid lg:grid-cols-2 gap-16 items-center">
+<div>
+<h1 class="text-5xl font-bold mb-6 max-w-xl leading-tight">Understand the market in seconds, not hours.</h1>
+<p class="text-on-surface-variant text-lg mb-10 max-w-lg leading-relaxed">
+                        AI-powered financial intelligence that turns market noise into actionable insights. Institutional-grade analysis for the modern terminal.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-primary text-on-primary px-8 py-4 text-sm font-bold uppercase tracking-wider hover:bg-primary/90 transition-all">
+                            Get Early Access
+                        </button>
+<button class="border border-primary text-primary px-8 py-4 text-sm font-bold uppercase tracking-wider hover:bg-primary/10 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">play_circle</span> View Demo
+                        </button>
+</div>
+</div>
+<!-- Hero Mockup -->
+<div class="relative group">
+<div class="absolute -inset-1 bg-primary/20 blur-2xl rounded-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+<div class="glass-panel rounded-lg p-6 relative overflow-hidden ai-border-shimmer">
+<div class="flex items-center justify-between mb-6 border-b border-outline-variant/30 pb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-surface-container-high flex items-center justify-center font-mono-data text-primary">NVDA</div>
+<div>
+<div class="font-mono-label text-[10px] uppercase text-on-surface-variant">Real-time Catalyst</div>
+<div class="font-bold text-sm">NVIDIA Corp.</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-market-bull font-mono-data text-sm">+4.28%</div>
+<div class="text-[10px] text-on-surface-variant font-mono-label">AFTER HOURS</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="p-4 bg-secondary/5 border-l-2 border-secondary rounded-none">
+<div class="flex items-center gap-2 text-secondary font-mono-label text-[11px] mb-2 uppercase">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span> Lumora Insight
+                                </div>
+<p class="text-xs font-mono-data leading-relaxed">NVDA moving on H100 production volume expansion rumors in Asia supply chains. Institutional positioning indicates front-running of Q3 guidance revision.</p>
+</div>
+<div class="space-y-2">
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[75%]"></div>
+</div>
+<div class="flex justify-between text-[10px] font-mono-label text-on-surface-variant">
+<span>SENTIMENT: BULLISH (78%)</span>
+<span>VOLUME: HIGH</span>
+</div>
+</div>
+</div>
+<img class="mt-6 rounded border border-outline-variant/30 w-full object-cover h-40 grayscale opacity-40" data-alt="Financial data interface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyR3LfXZTLI9bq3Ao7O7IoX2klv94HS61ezLRfMfs1jGWPa7CwXIEftQbSTbI0J0lcodNVytFqOi0uZYr3uVFebKAu-SGtM6ZP03r2_Uoi7Gr1c1gV3zJp6mDhEzaof34L-_uXLt_hIIoq2K_u4eD7r-Ez9kkIxjK0u0-Z4SSWFR-4L1g2o_SE2cguJ8WNQP6uwVhF48-gUjImWRC6PZL5TsqukEexTheVr3POwmC51uYXJ1gUvNyajqY6llZUPfRsceEQYq3II3Qt"/>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Animated Stock Ticker -->
+<div class="ticker-wrap border-y border-outline-variant/20 py-3 bg-surface-container-lowest">
+<div class="ticker-move">
+<div class="flex items-center gap-12 px-6">
+<div class="flex items-center gap-2"><span class="font-mono-label text-xs text-on-surface-variant">BTC/USD</span><span class="font-mono-data text-sm text-market-bull">68,432.12 +1.2%</span></div>
+<div class="flex items-center gap-2"><span class="font-mono-label text-xs text-on-surface-variant">AAPL</span><span class="font-mono-data text-sm text-market-bear">189.44 -0.3%</span></div>
+<div class="flex items-center gap-2"><span class="font-mono-label text-xs text-on-surface-variant">TSLA</span><span class="font-mono-data text-sm text-market-bull">174.55 +2.4%</span></div>
+<div class="flex items-center gap-2"><span class="font-mono-label text-xs text-on-surface-variant">SPY</span><span class="font-mono-data text-sm text-market-bull">512.44 +0.1%</span></div>
+<div class="flex items-center gap-2"><span class="font-mono-label text-xs text-on-surface-variant">NVDA</span><span class="font-mono-data text-sm text-market-bull">904.33 +4.8%</span></div>
+<div class="flex items-center gap-2"><span class="font-mono-label text-xs text-on-surface-variant">MSFT</span><span class="font-mono-data text-sm text-market-bear">415.10 -0.8%</span></div>
+<div class="flex items-center gap-2"><span class="font-mono-label text-xs text-on-surface-variant">GOLD</span><span class="font-mono-data text-sm text-market-bull">2,342.10 +0.5%</span></div>
+</div>
+<div class="flex items-center gap-12 px-6">
+<div class="flex items-center gap-2"><span class="font-mono-label text-xs text-on-surface-variant">BTC/USD</span><span class="font-mono-data text-sm text-market-bull">68,432.12 +1.2%</span></div>
+<div class="flex items-center gap-2"><span class="font-mono-label text-xs text-on-surface-variant">AAPL</span><span class="font-mono-data text-sm text-market-bear">189.44 -0.3%</span></div>
+<div class="flex items-center gap-2"><span class="font-mono-label text-xs text-on-surface-variant">TSLA</span><span class="font-mono-data text-sm text-market-bull">174.55 +2.4%</span></div>
+<div class="flex items-center gap-2"><span class="font-mono-label text-xs text-on-surface-variant">SPY</span><span class="font-mono-data text-sm text-market-bull">512.44 +0.1%</span></div>
+<div class="flex items-center gap-2"><span class="font-mono-label text-xs text-on-surface-variant">NVDA</span><span class="font-mono-data text-sm text-market-bull">904.33 +4.8%</span></div>
+<div class="flex items-center gap-2"><span class="font-mono-label text-xs text-on-surface-variant">MSFT</span><span class="font-mono-data text-sm text-market-bear">415.10 -0.8%</span></div>
+<div class="flex items-center gap-2"><span class="font-mono-label text-xs text-on-surface-variant">GOLD</span><span class="font-mono-data text-sm text-market-bull">2,342.10 +0.5%</span></div>
+</div>
+</div>
+</div>
+<!-- 3. Social Proof Section -->
+<section class="py-20 px-margin-desktop max-w-container-max mx-auto text-center">
+<p class="font-mono-label text-[11px] text-on-surface-variant uppercase mb-12 tracking-widest">Built for modern institutional investors</p>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-30 grayscale mb-20">
+<div class="text-2xl font-bold">QUANTUM</div>
+<div class="text-2xl font-bold">VELOCITY</div>
+<div class="text-2xl font-bold">STRATOS</div>
+<div class="text-2xl font-bold">NEXUS</div>
+</div>
+<div class="grid md:grid-cols-3 gap-12">
+<div class="p-8 border border-outline-variant/20 bg-surface-container-low">
+<div class="text-primary text-4xl font-bold mb-2">10k+</div>
+<p class="font-mono-label text-[11px] uppercase text-on-surface-variant">Financial sources tracked</p>
+</div>
+<div class="p-8 border border-outline-variant/20 bg-surface-container-low">
+<div class="text-primary text-4xl font-bold mb-2">Real-time</div>
+<p class="font-mono-label text-[11px] uppercase text-on-surface-variant">Market Intelligence</p>
+</div>
+<div class="p-8 border border-outline-variant/20 bg-surface-container-low">
+<div class="text-primary text-4xl font-bold mb-2">&lt;2s</div>
+<p class="font-mono-label text-[11px] uppercase text-on-surface-variant">AI-powered summaries</p>
+</div>
+</div>
+</section>
+<!-- 4. Problem Section: Noise vs Signal -->
+<section class="py-24 bg-surface-container-lowest px-margin-desktop overflow-hidden">
+<div class="max-w-container-max mx-auto">
+<div class="text-center mb-16">
+<h2 class="text-3xl font-bold mb-4">Escape the information overload.</h2>
+<p class="text-on-surface-variant">The market doesn't suffer from a lack of data, but a lack of clarity.</p>
+</div>
+<div class="grid md:grid-cols-2 gap-1 px-1 bg-outline-variant/20 border border-outline-variant/20">
+<div class="bg-surface p-8 relative">
+<div class="font-mono-label text-[10px] uppercase text-on-error mb-4 bg-error/20 inline-block px-2 py-1">The Noise</div>
+<div class="space-y-4 opacity-30 blur-[0.5px]">
+<div class="p-4 border border-outline-variant/30 font-mono-data text-xs">NEWS: Fed Chair speaks at symposium, market reactions mixed as inflation data looms over upcoming committee meeting...</div>
+<div class="p-4 border border-outline-variant/30 font-mono-data text-xs">TWEET: $AAPL looking weak here, major support level broken. Sell signal on RSI 14-day window...</div>
+<div class="p-4 border border-outline-variant/30 font-mono-data text-xs">ALERT: Unusual options activity detected in TSLA put contracts for expiration June 21...</div>
+<div class="p-4 border border-outline-variant/30 font-mono-data text-xs">FILING: Form 4 filed by executive officer at MSFT for sale of 50,000 shares...</div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-on-surface-variant/20">error</span>
+</div>
+</div>
+<div class="bg-surface p-8 border-l border-outline-variant/20">
+<div class="font-mono-label text-[10px] uppercase text-on-primary mb-4 bg-primary inline-block px-2 py-1">Lumora Signal</div>
+<div class="space-y-6">
+<div class="p-6 glass-panel border-primary/20 ai-glow">
+<h3 class="text-lg font-semibold mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">insights</span> 
+                                    Consensus Brief: Macro Outlook
+                                </h3>
+<p class="text-on-surface-variant text-sm mb-4">Fed commentary shifts to "Hawkish Neutral." Market pricing in 25bps cut by Q3 is now at 12%, down from 45% yesterday.</p>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-2 bg-surface-container-high border border-outline-variant/30 text-[10px] font-mono-data">
+<div class="text-on-surface-variant mb-1 uppercase">Impact</div>
+<div class="text-market-bear">NEGATIVE (TECH)</div>
+</div>
+<div class="p-2 bg-surface-container-high border border-outline-variant/30 text-[10px] font-mono-data">
+<div class="text-on-surface-variant mb-1 uppercase">Confidence</div>
+<div class="text-primary">HIGH (92%)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. Core Value Prop: Bento Grid -->
+<section class="py-24 px-margin-desktop max-w-container-max mx-auto">
+<h2 class="text-3xl font-bold mb-12">Total Market Awareness.</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- AI News Summaries -->
+<div class="lg:col-span-2 glass-panel p-8 group hover:border-primary/50 transition-all">
+<span class="material-symbols-outlined text-primary text-3xl mb-4">newspaper</span>
+<h3 class="text-lg font-semibold mb-2">AI News Summaries</h3>
+<p class="text-on-surface-variant text-sm">Distill 10,000+ sources into five bullet points. Understand the narrative shifts before they hit the headlines.</p>
+</div>
+<!-- Why Is This Stock Moving? -->
+<div class="glass-panel p-8 group hover:border-primary/50 transition-all">
+<span class="material-symbols-outlined text-primary text-3xl mb-4">trending_up</span>
+<h3 class="text-lg font-semibold mb-2">Catalyst ID</h3>
+<p class="text-on-surface-variant text-sm">Instant answers to "Why is it up?". No more manual digging.</p>
+</div>
+<!-- Earnings Intelligence -->
+<div class="glass-panel p-8 group hover:border-primary/50 transition-all">
+<span class="material-symbols-outlined text-primary text-3xl mb-4">transcribe</span>
+<h3 class="text-lg font-semibold mb-2">Earnings AI</h3>
+<p class="text-on-surface-variant text-sm">Real-time sentiment analysis and key takeaway extractions.</p>
+</div>
+<!-- Due Diligence AI -->
+<div class="glass-panel p-8 group hover:border-primary/50 transition-all">
+<span class="material-symbols-outlined text-primary text-3xl mb-4">search_check</span>
+<h3 class="text-lg font-semibold mb-2">Due Diligence</h3>
+<p class="text-on-surface-variant text-sm">Automated risk factor detection in SEC filings.</p>
+</div>
+<!-- Macro Events -->
+<div class="lg:col-span-2 glass-panel p-8 group hover:border-primary/50 transition-all">
+<span class="material-symbols-outlined text-primary text-3xl mb-4">public</span>
+<h3 class="text-lg font-semibold mb-2">Macro Contextualizer</h3>
+<p class="text-on-surface-variant text-sm">How CPI, FOMC, and geopolitical events ripple through your specific portfolio tickers.</p>
+</div>
+<!-- Smart Alerts -->
+<div class="glass-panel p-8 group hover:border-primary/50 transition-all">
+<span class="material-symbols-outlined text-primary text-3xl mb-4">notifications_active</span>
+<h3 class="text-lg font-semibold mb-2">Smart Alerts</h3>
+<p class="text-on-surface-variant text-sm">Not just price alerts. "Unusual narrative shift" alerts.</p>
+</div>
+</div>
+</section>
+<!-- 6. Feature Deep Dive -->
+<section class="py-24 bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="grid lg:grid-cols-2 gap-20 items-center mb-32">
+<div class="order-2 lg:order-1">
+<div class="bg-surface border border-outline-variant/30 rounded-lg overflow-hidden shadow-2xl">
+<div class="bg-surface-container-high px-4 py-2 border-b border-outline-variant/30 flex items-center justify-between">
+<div class="flex gap-1.5">
+<div class="w-3 h-3 rounded-full bg-error/40"></div>
+<div class="w-3 h-3 rounded-full bg-secondary/40"></div>
+<div class="w-3 h-3 rounded-full bg-market-bull/40"></div>
+</div>
+<div class="font-mono-label text-[9px] text-on-surface-variant">LUMORA_TERMINAL // CATALYST_ENGINE</div>
+</div>
+<div class="p-6 font-mono-data text-xs space-y-4">
+<div class="flex gap-4">
+<span class="text-primary">&gt;</span>
+<span>Querying 10-K for risk factor variance...</span>
+</div>
+<div class="bg-surface-container-high p-4 border-l-2 border-secondary">
+<div class="text-secondary mb-2 font-bold">[ANALYSIS COMPLETE]</div>
+<p class="text-[11px] leading-relaxed text-on-surface-variant">Significant shift in "Foreign Currency Risk" phrasing. Management added specific mentions of Southeast Asia regulatory volatility not present in previous 4 filings.</p>
+</div>
+<div class="flex gap-4">
+<span class="text-primary">&gt;</span>
+<span class="animate-pulse">_</span>
+</div>
+</div>
+</div>
+</div>
+<div class="order-1 lg:order-2">
+<h2 class="text-3xl font-bold mb-6">SEC Filing Simplification</h2>
+<p class="text-on-surface-variant text-lg mb-8">Stop reading 200-page documents. Lumora cross-references historical filings to highlight what's <i>actually</i> new and what's being hidden in legal boilerplate.</p>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+<span class="text-sm">Variance detection between sequential filings</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+<span class="text-sm">Executive sentiment tracking in MD&amp;A sections</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+<span class="text-sm">Automated extraction of debt covenant details</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. Market Intelligence Preview -->
+<section class="py-24 px-margin-desktop max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+<div>
+<h2 class="text-3xl font-bold">Trending Intelligence</h2>
+<p class="text-on-surface-variant mt-2 text-sm">The sectors and stocks currently dominating the institutional conversation.</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-outline-variant/30 font-mono-label text-[10px] uppercase hover:bg-surface-container transition-all">S&amp;P 500</button>
+<button class="px-4 py-2 bg-primary text-on-primary font-mono-label text-[10px] uppercase">Nasdaq 100</button>
+<button class="px-4 py-2 border border-outline-variant/30 font-mono-label text-[10px] uppercase hover:bg-surface-container transition-all">Crypto</button>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+<!-- Mock Heatmap -->
+<div class="h-32 bg-market-bull/80 flex items-center justify-center font-mono-data flex-col border border-background">
+<span class="text-sm font-bold">NVDA</span>
+<span class="text-xs">+4.8%</span>
+</div>
+<div class="h-32 bg-market-bull/60 flex items-center justify-center font-mono-data flex-col border border-background">
+<span class="text-sm font-bold">AMD</span>
+<span class="text-xs">+3.2%</span>
+</div>
+<div class="h-32 bg-market-bull/40 flex items-center justify-center font-mono-data flex-col border border-background">
+<span class="text-sm font-bold">MSFT</span>
+<span class="text-xs">+1.2%</span>
+</div>
+<div class="h-32 bg-market-bear/60 flex items-center justify-center font-mono-data flex-col border border-background">
+<span class="text-sm font-bold">AAPL</span>
+<span class="text-xs">-2.5%</span>
+</div>
+<div class="h-32 bg-market-bull/20 flex items-center justify-center font-mono-data flex-col border border-background">
+<span class="text-sm font-bold">GOOGL</span>
+<span class="text-xs">+0.4%</span>
+</div>
+<div class="h-32 bg-market-bear/40 flex items-center justify-center font-mono-data flex-col border border-background">
+<span class="text-sm font-bold">AMZN</span>
+<span class="text-xs">-1.1%</span>
+</div>
+<div class="h-32 bg-market-bull/60 flex items-center justify-center font-mono-data flex-col border border-background">
+<span class="text-sm font-bold">META</span>
+<span class="text-xs">+2.8%</span>
+</div>
+<div class="h-32 bg-market-bear/80 flex items-center justify-center font-mono-data flex-col border border-background">
+<span class="text-sm font-bold">TSLA</span>
+<span class="text-xs">-5.2%</span>
+</div>
+<div class="h-32 bg-market-bull/40 flex items-center justify-center font-mono-data flex-col border border-background">
+<span class="text-sm font-bold">AVGO</span>
+<span class="text-xs">+1.5%</span>
+</div>
+<div class="h-32 bg-market-bull/30 flex items-center justify-center font-mono-data flex-col border border-background">
+<span class="text-sm font-bold">ORCL</span>
+<span class="text-xs">+0.8%</span>
+</div>
+<div class="h-32 bg-market-bear/20 flex items-center justify-center font-mono-data flex-col border border-background">
+<span class="text-sm font-bold">CSCO</span>
+<span class="text-xs">-0.3%</span>
+</div>
+<div class="h-32 bg-market-bull/50 flex items-center justify-center font-mono-data flex-col border border-background">
+<span class="text-sm font-bold">SMCI</span>
+<span class="text-xs">+2.1%</span>
+</div>
+</div>
+</section>
+<!-- 8. Final CTA -->
+<section class="py-32 px-margin-desktop text-center relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-secondary/10"></div>
+<div class="relative z-10 max-w-3xl mx-auto">
+<h2 class="text-5xl font-bold mb-8">Stop reading noise. Start understanding the market.</h2>
+<div class="flex flex-col md:flex-row items-center justify-center gap-6">
+<button class="bg-primary text-on-primary px-12 py-5 text-sm font-bold uppercase tracking-wider hover:bg-primary/90 transition-all w-full md:w-auto">
+                        Get Early Access
+                    </button>
+<button class="border border-outline text-on-surface px-12 py-5 text-sm font-bold uppercase tracking-wider hover:bg-surface-container-high transition-all w-full md:w-auto">
+                        Contact Sales
+                    </button>
+</div>
+<p class="mt-8 font-mono-label text-[11px] text-on-surface-variant uppercase tracking-widest">Limited terminal seats remaining for Q4.</p>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full rounded-none bg-surface-container-lowest border-t border-outline-variant/20">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter px-margin-desktop py-16 max-w-container-max mx-auto">
+<div class="lg:col-span-1">
+<div class="text-3xl font-bold text-on-surface mb-4">LUMORA</div>
+<p class="text-on-surface-variant font-mono-label uppercase text-[10px] leading-relaxed">
+                    © 2024 Lumora Intelligence Systems. Institutional Grade Financial Intelligence.
+                </p>
+</div>
+<div>
+<h4 class="font-mono-label text-primary text-[11px] uppercase mb-6 tracking-widest">Product</h4>
+<ul class="space-y-3">
+<li><a class="text-on-surface-variant hover:text-primary transition-all font-mono-label text-[10px] uppercase" href="#">Terminal</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-all font-mono-label text-[10px] uppercase" href="#">API Documentation</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-all font-mono-label text-[10px] uppercase" href="#">Intelligence Engine</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-mono-label text-primary text-[11px] uppercase mb-6 tracking-widest">Legal</h4>
+<ul class="space-y-3">
+<li><a class="text-on-surface-variant hover:text-primary transition-all font-mono-label text-[10px] uppercase" href="#">Risk Disclosure</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-all font-mono-label text-[10px] uppercase" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-all font-mono-label text-[10px] uppercase" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-mono-label text-primary text-[11px] uppercase mb-6 tracking-widest">Support</h4>
+<ul class="space-y-3">
+<li><a class="text-on-surface-variant hover:text-primary transition-all font-mono-label text-[10px] uppercase" href="#">Contact Support</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-all font-mono-label text-[10px] uppercase" href="#">System Status</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-all font-mono-label text-[10px] uppercase" href="#">Knowledge Base</a></li>
+</ul>
+</div>
+</div>
+</footer>
+</body></html>

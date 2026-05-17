@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumora — Illuminate Your Investments</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080b0f;
+  --surface: #0d1117;
+  --surface2: #161b22;
+  --border: #1e2530;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --text-dim: #404a56;
+  --green: #3fb950;
+  --green-dim: rgba(63,185,80,0.10);
+  --red: #f85149;
+  --red-dim: rgba(248,81,73,0.10);
+  --blue: #58a6ff;
+  --blue-dim: rgba(88,166,255,0.10);
+  --teal: #2dd4bf;
+  --teal-dim: rgba(45,212,191,0.08);
+  --accent: #1f6feb;
+  --glow: rgba(45,212,191,0.15);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ─── NOISE OVERLAY ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 180px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 64px;
+  background: rgba(8,11,15,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-logo-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 10px var(--teal);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+.nav-cta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 9px 20px;
+  border-radius: 5px;
+  background: var(--teal);
+  color: #080b0f;
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-cta:hover {
+  background: #fff;
+  box-shadow: 0 0 24px rgba(45,212,191,0.35);
+}
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--text-muted);
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 48px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-glow {
+  position: absolute;
+  top: 10%; left: 50%;
+  transform: translateX(-50%);
+  width: 700px; height: 400px;
+  background: radial-gradient(ellipse, rgba(45,212,191,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-left { max-width: 540px; }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  border: 1px solid rgba(45,212,191,0.25);
+  background: rgba(45,212,191,0.05);
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 28px;
+}
+.hero-badge-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--teal);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.hero-headline {
+  font-size: clamp(38px, 5vw, 64px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.hero-headline .hl {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 40px;
+  max-width: 440px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 14px 28px;
+  border-radius: 6px;
+  background: var(--teal);
+  color: #080b0f;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background: #fff;
+  box-shadow: 0 8px 32px rgba(45,212,191,0.3);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.btn-secondary:hover { color: var(--text); }
+
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.stat-item {}
+.stat-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.stat-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+/* ─── PHONE MOCKUP ─── */
+.hero-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.phone-wrap {
+  position: relative;
+}
+
+.phone-glow-ring {
+  position: absolute;
+  inset: -30px;
+  border-radius: 60px;
+  background: radial-gradient(ellipse at center, rgba(45,212,191,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.phone-mockup {
+  width: 260px;
+  background: #0d1117;
+  border-radius: 36px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 40px 100px rgba(0,0,0,0.7),
+    0 0 0 1px rgba(255,255,255,0.04),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  overflow: hidden;
+  position: relative;
+  transform: perspective(900px) rotateY(-8deg) rotateX(2deg);
+  transition: transform 0.4s ease;
+}
+.phone-mockup:hover {
+  transform: perspective(900px) rotateY(-3deg) rotateX(1deg);
+}
+
+/* phone inner content */
+.p-topbar {
+  background: #161b22;
+  padding: 10px 14px 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #1e2530;
+}
+.p-ticker { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; background: #1f6feb; color: #fff; padding: 2px 7px; border-radius: 3px; }
+.p-name { font-size: 10px; font-weight: 600; color: #e6edf3; }
+.p-exch { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #404a56; }
+.p-price { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: #e6edf3; text-align: right; }
+.p-chg { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #3fb950; text-align: right; }
+
+.p-chart {
+  height: 130px;
+  background: #0d1117;
+  position: relative;
+  overflow: hidden;
+}
+
+.p-chart svg {
+  width: 100%; height: 100%;
+}
+
+.p-tabs {
+  display: flex;
+  background: #161b22;
+  border-bottom: 1px solid #1e2530;
+  border-top: 1px solid #1e2530;
+}
+.p-tab {
+  flex: 1;
+  padding: 8px 0;
+  text-align: center;
+  font-size: 9px;
+  font-weight: 500;
+  color: #404a56;
+}
+.p-tab.active { color: #e6edf3; position: relative; }
+.p-tab.active::after {
+  content: ''; position: absolute; bottom: 0; left: 20%; right: 20%;
+  height: 1.5px; background: #2dd4bf; border-radius: 2px 2px 0 0;
+}
+
+.p-filters {
+  display: flex; gap: 4px; padding: 7px 10px 5px;
+  overflow: hidden;
+}
+.p-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7px; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 3px 7px; border-radius: 20px;
+  border: 1px solid #1e2530; color: #404a56;
+}
+.p-chip.active { border-color: #2dd4bf; color: #2dd4bf; background: rgba(45,212,191,0.07); }
+
+.p-news-item {
+  padding: 8px 10px 8px 14px;
+  border-bottom: 1px solid #1e2530;
+  position: relative;
+}
+.p-news-item::before {
+  content: ''; position: absolute;
+  left: 0; top: 0; bottom: 0; width: 2px;
+}
+.p-news-item.bull::before { background: #3fb950; }
+.p-news-item.bear::before { background: #f85149; }
+.p-news-item.neut::before { background: #58a6ff; }
+
+.p-news-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.p-news-src { font-family: 'JetBrains Mono', monospace; font-size: 7px; color: #404a56; letter-spacing: 0.05em; text-transform: uppercase; }
+.p-news-tag { font-family: 'JetBrains Mono', monospace; font-size: 7px; font-weight: 600; padding: 1px 5px; border-radius: 2px; }
+.bull .p-news-tag { background: rgba(63,185,80,0.12); color: #3fb950; }
+.bear .p-news-tag { background: rgba(248,81,73,0.12); color: #f85149; }
+.neut .p-news-tag { background: rgba(88,166,255,0.10); color: #58a6ff; }
+.p-news-hl { font-size: 9px; font-weight: 600; color: #c9d1d9; line-height: 1.35; }
+
+/* ─── TICKER TAPE ─── */
+.ticker-wrap {
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  padding: 10px 0;
+  position: relative;
+  z-index: 1;
+}
+.ticker-track {
+  display: flex;
+  gap: 48px;
+  animation: ticker 30s linear infinite;
+  white-space: nowrap;
+}
+.ticker-track:hover { animation-play-state: paused; }
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.t-sym { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; color: var(--text); letter-spacing: 0.05em; }
+.t-price { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+.t-chg { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; }
+.t-chg.up { color: var(--green); }
+.t-chg.dn { color: var(--red); }
+.t-sep { color: var(--text-dim); font-size: 10px; }
+
+/* ─── FEATURES ─── */
+.section {
+  padding: 100px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: clamp(28px, 3.5vw, 46px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.section-sub {
+  font-size: 16px;
+  color: var(--text-muted);
+  max-width: 480px;
+  line-height: 1.7;
+  margin-bottom: 60px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.feature-card {
+  background: var(--surface);
+  padding: 32px 28px;
+  transition: background 0.2s;
+  cursor: default;
+}
+.feature-card:hover { background: var(--surface2); }
+
+.feat-icon {
+  width: 42px; height: 42px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.feat-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.feat-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+/* ─── NEWS SHOWCASE ─── */
+.showcase-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.showcase-header {
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sh-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+.showcase-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.showcase-left {
+  padding: 32px 28px;
+  border-right: 1px solid var(--border);
+}
+
+.showcase-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 16px;
+}
+
+.showcase-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.showcase-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.showcase-feature-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.showcase-feature-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.sfl-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+  flex-shrink: 0;
+}
+
+.showcase-right {
+  padding: 24px;
+  background: #080b0f;
+}
+
+/* mini news cards inside showcase */
+.mini-card {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+.mini-card:hover { background: var(--surface2); }
+.mini-card::before {
+  content: ''; position: absolute;
+  left: 0; top: 4px; bottom: 4px; width: 3px; border-radius: 2px;
+}
+.mini-card.bull::before { background: var(--green); }
+.mini-card.bear::before { background: var(--red); }
+.mini-card.neut::before { background: var(--blue); }
+
+.mc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.mc-src { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-dim); letter-spacing: 0.06em; text-transform: uppercase; }
+.mc-tag { font-family: 'JetBrains Mono', monospace; font-size: 8px; font-weight: 600; padding: 2px 7px; border-radius: 3px; }
+.bull .mc-tag { background: var(--green-dim); color: var(--green); }
+.bear .mc-tag { background: var(--red-dim); color: var(--red); }
+.neut .mc-tag { background: var(--blue-dim); color: var(--blue); }
+.mc-hl { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.4; }
+
+/* ─── SOCIAL PROOF ─── */
+.proof-section {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 64px 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.proof-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.proof-title {
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 40px;
+}
+
+.proof-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 56px;
+}
+
+.proof-stat {
+  background: var(--bg);
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.ps-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+
+.ps-num .ps-teal { color: var(--teal); }
+
+.ps-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.testimonials {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  text-align: left;
+}
+
+.testi-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  transition: border-color 0.2s;
+}
+.testi-card:hover { border-color: rgba(45,212,191,0.25); }
+
+.testi-stars {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 14px;
+}
+.star { color: #f5a623; font-size: 12px; }
+
+.testi-text {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 18px;
+  font-style: italic;
+}
+
+.testi-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.testi-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: #080b0f;
+}
+
+.testi-name { font-size: 13px; font-weight: 600; }
+.testi-role { font-size: 11px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
+
+/* ─── CTA SECTION ─── */
+.cta-section {
+  padding: 120px 48px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.cta-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(45,212,191,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cta-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.cta-title {
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+
+.cta-title .hl {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cta-sub {
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.cta-trial-note {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  margin-top: 16px;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+
+.footer-brand {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 260px;
+}
+
+.footer-col-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--text); }
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 40px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-copy {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
+/* ─── MOBILE MENU ─── */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 64px; left: 0; right: 0;
+  background: rgba(8,11,15,0.98);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 32px;
+  z-index: 99;
+  flex-direction: column;
+  gap: 20px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.mobile-menu .nav-cta { align-self: flex-start; margin-top: 8px; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .showcase-body { grid-template-columns: 1fr; }
+  .showcase-right { border-top: 1px solid var(--border); }
+  .proof-stats { grid-template-columns: repeat(2, 1fr); }
+  .testimonials { grid-template-columns: 1fr 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links, .nav-cta { display: none; }
+  .nav-hamburger { display: flex; }
+
+  .hero { padding: 100px 20px 60px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+  .hero-left { max-width: 100%; }
+  .hero-right { order: -1; }
+  .phone-mockup { transform: none; width: 220px; }
+  .phone-mockup:hover { transform: none; }
+
+  .hero-stats { gap: 20px; }
+  .stat-num { font-size: 18px; }
+
+  .section { padding: 60px 20px; }
+
+  .features-grid { grid-template-columns: 1fr; }
+
+  .proof-section { padding: 48px 20px; }
+  .proof-stats { grid-template-columns: repeat(2, 1fr); }
+  .testimonials { grid-template-columns: 1fr; }
+
+  .cta-section { padding: 80px 20px; }
+
+  footer { padding: 40px 20px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .hero-actions { flex-direction: column; align-items: flex-start; }
+  .btn-primary { width: 100%; justify-content: center; }
+  .proof-stats { grid-template-columns: 1fr 1fr; }
+  .hero-stats { flex-wrap: wrap; gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-dot"></div>
+    Lumora
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#news">News Feed</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <a href="#trial" class="nav-cta">Start Free Trial</a>
+  <div class="nav-hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#features" onclick="toggleMenu()">Features</a>
+  <a href="#news" onclick="toggleMenu()">News Feed</a>
+  <a href="#pricing" onclick="toggleMenu()">Pricing</a>
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#trial" class="nav-cta" onclick="toggleMenu()">Start Free Trial</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        Now in Beta · Join 12,000+ traders
+      </div>
+      <h1 class="hero-headline">
+        Markets decoded.<br>
+        <span class="hl">In real time.</span>
+      </h1>
+      <p class="hero-sub">
+        Lumora combines live market data, AI-powered news sentiment, and institutional-grade charts — all in one beautifully dark interface built for serious traders.
+      </p>
+      <div class="hero-actions">
+        <a href="#trial" class="btn-primary">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v6M4 4l3-3 3 3M2 10h10M2 12h10" stroke="#080b0f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Start Free Trial
+        </a>
+        <a href="#demo" class="btn-secondary">
+          Watch Demo →
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">12K+</div>
+          <div class="stat-label">Active traders</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3.2M</div>
+          <div class="stat-label">News articles analyzed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">99.8%</div>
+          <div class="stat-label">Uptime SLA</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHONE MOCKUP -->
+    <div class="hero-right">
+      <div class="phone-wrap">
+        <div class="phone-glow-ring"></div>
+        <div class="phone-mockup">
+          <!-- Stock Header -->
+          <div class="p-topbar">
+            <div>
+              <div style="display:flex;align-items:center;gap:7px;margin-bottom:2px;">
+                <div class="p-ticker">AAPL</div>
+                <div class="p-name">Apple Inc.</div>
+              </div>
+              <div class="p-exch">NASDAQ · US</div>
+            </div>
+            <div>
+              <div class="p-price">111.26</div>
+              <div class="p-chg">▲ +2.34 (2.15%)</div>
+            </div>
+          </div>
+
+          <!-- Chart -->
+          <div class="p-chart">
+            <svg viewBox="0 0 260 130" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#0a0f14"/>
+                  <stop offset="100%" stop-color="#060910"/>
+                </linearGradient>
+                <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2dd4bf" stop-opacity="0.15"/>
+                  <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <rect width="260" height="130" fill="url(#bg)"/>
+              <!-- Grid lines -->
+              <line x1="0" y1="32" x2="260" y2="32" stroke="#1e2530" stroke-width="0.5"/>
+              <line x1="0" y1="64" x2="260" y2="64" stroke="#1e2530" stroke-width="0.5"/>
+              <line x1="0" y1="96" x2="260" y2="96" stroke="#1e2530" stroke-width="0.5"/>
+              <!-- Area fill -->
+              <path d="M0,90 C20,85 40,80 60,75 C80,70 90,40 110,30 C130,20 140,50 160,55 C180,60 200,45 220,38 C240,31 250,35 260,32 L260,130 L0,130 Z" fill="url(#areaGrad)"/>
+              <!-- Line -->
+              <path d="M0,90 C20,85 40,80 60,75 C80,70 90,40 110,30 C130,20 140,50 160,55 C180,60 200,45 220,38 C240,31 250,35 260,32" fill="none" stroke="#2dd4bf" stroke-width="1.5"/>
+              <!-- Candlesticks -->
+              <rect x="48" y="68" width="6" height="14" fill="#3fb950" rx="1"/>
+              <line x1="51" y1="64" x2="51" y2="85" stroke="#3fb950" stroke-width="1"/>
+              <rect x="62" y="55" width="6" height="20" fill="#f85149" rx="1"/>
+              <line x1="65" y1="48" x2="65" y2="80" stroke="#f85149" stroke-width="1"/>
+              <rect x="76" y="25" width="6" height="22" fill="#3fb950" rx="1"/>
+              <line x1="79" y1="20" x2="79" y2="50" stroke="#3fb950" stroke-width="1"/>
+              <rect x="90" y="30" width="6" height="18" fill="#f85149" rx="1"/>
+              <line x1="93" y1="25" x2="93" y2="52" stroke="#f85149" stroke-width="1"/>
+              <rect x="104" y="48" width="6" height="12" fill="#3fb950" rx="1"/>
+              <line x1="107" y1="44" x2="107" y2="63" stroke="#3fb950" stroke-width="1"/>
+              <rect x="118" y="50" width="6" height="10" fill="#f85149" rx="1"/>
+              <line x1="121" y1="46" x2="121" y2="64" stroke="#f85149" stroke-width="1"/>
+              <!-- Price label -->
+              <rect x="208" y="27" width="44" height="14" rx="2" fill="#2dd4bf"/>
+              <text x="230" y="37" font-family="monospace" font-size="8" fill="#080b0f" text-anchor="middle" font-weight="700">111.26</text>
+            </svg>
+          </div>
+
+          <!-- Tabs -->
+          <div class="p-tabs">
+            <div class="p-tab active">news</div>
+            <div class="p-tab">earning</div>
+            <div class="p-tab">sentiment</div>
+            <div class="p-tab">others</div>
+          </div>
+
+          <!-- Filters -->
+          <div class="p-filters">
+            <div class="p-chip active">All</div>
+            <div class="p-chip">Bullish</div>
+            <div class="p-chip">Bearish</div>
+            <div class="p-chip">Analyst</div>
+          </div>
+
+          <!-- News items -->
+          <div class="p-news-item bull">
+            <div class="p-news-top">
+              <span class="p-news-src">Bloomberg · 34m</span>
+              <span class="p-news-tag">Bullish</span>
+            </div>
+            <div class="p-news-hl">Apple Q4 Revenue Smashes Analyst Forecasts</div>
+          </div>
+          <div class="p-news-item bear">
+            <div class="p-news-top">
+              <span class="p-news-src">WSJ · 2h</span>
+              <span class="p-news-tag">Bearish</span>
+            </div>
+            <div class="p-news-hl">EU Opens Antitrust Probe Into App Store</div>
+          </div>
+          <div class="p-news-item neut">
+            <div class="p-news-top">
+              <span class="p-news-src">Reuters · 5h</span>
+              <span class="p-news-tag">Neutral</span>
+            </div>
+            <div class="p-news-hl">Apple-TSMC 2nm Chip Deal Confirmed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER TAPE -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <!-- duplicated for seamless loop -->
+    <div class="ticker-item"><span class="t-sym">AAPL</span><span class="t-price">111.26</span><span class="t-chg up">+2.15%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">TSLA</span><span class="t-price">245.80</span><span class="t-chg dn">-1.32%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">NVDA</span><span class="t-price">875.40</span><span class="t-chg up">+3.87%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">MSFT</span><span class="t-price">415.22</span><span class="t-chg up">+0.91%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">AMZN</span><span class="t-price">186.44</span><span class="t-chg dn">-0.54%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">GOOGL</span><span class="t-price">172.10</span><span class="t-chg up">+1.24%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">META</span><span class="t-price">508.77</span><span class="t-chg up">+2.03%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">SPY</span><span class="t-price">521.34</span><span class="t-chg up">+0.44%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">BTC</span><span class="t-price">68,240</span><span class="t-chg dn">-2.11%</span></div>
+    <span class="t-sep">·</span>
+    <!-- duplicate -->
+    <div class="ticker-item"><span class="t-sym">AAPL</span><span class="t-price">111.26</span><span class="t-chg up">+2.15%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">TSLA</span><span class="t-price">245.80</span><span class="t-chg dn">-1.32%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">NVDA</span><span class="t-price">875.40</span><span class="t-chg up">+3.87%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">MSFT</span><span class="t-price">415.22</span><span class="t-chg up">+0.91%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">AMZN</span><span class="t-price">186.44</span><span class="t-chg dn">-0.54%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">GOOGL</span><span class="t-price">172.10</span><span class="t-chg up">+1.24%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">META</span><span class="t-price">508.77</span><span class="t-chg up">+2.03%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">SPY</span><span class="t-price">521.34</span><span class="t-chg up">+0.44%</span></div>
+    <span class="t-sep">·</span>
+    <div class="ticker-item"><span class="t-sym">BTC</span><span class="t-price">68,240</span><span class="t-chg dn">-2.11%</span></div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div id="features" style="position:relative;z-index:1;">
+  <div class="section">
+    <div class="section-label">// Features</div>
+    <h2 class="section-title">Everything a trader<br>actually needs</h2>
+    <p class="section-sub">No noise. No filler. Just the tools that move the needle — built for speed and clarity.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feat-icon" style="background:rgba(45,212,191,0.10);">📡</div>
+        <div class="feat-title">Real-Time News Feed</div>
+        <p class="feat-desc">AI-tagged headlines from 200+ sources. Every article scored for sentiment before you even open it.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon" style="background:rgba(63,185,80,0.10);">📈</div>
+        <div class="feat-title">Candlestick Charts</div>
+        <p class="feat-desc">TradingView-grade charts with customizable overlays, volume bars, and key level markers built in.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon" style="background:rgba(248,81,73,0.10);">🎯</div>
+        <div class="feat-title">Earnings Tracker</div>
+        <p class="feat-desc">Never miss an earnings date. EPS estimates, surprise history, and post-earnings price behavior at a glance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon" style="background:rgba(88,166,255,0.10);">🧠</div>
+        <div class="feat-title">Sentiment Analysis</div>
+        <p class="feat-desc">Aggregate bullish/bearish scores from news, social, and analyst reports — updated every 5 minutes.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon" style="background:rgba(245,166,35,0.10);">⚡</div>
+        <div class="feat-title">Price Alerts</div>
+        <p class="feat-desc">Set triggers on price levels, % moves, volume spikes, or sentiment shifts. Never miss a key moment.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon" style="background:rgba(45,212,191,0.10);">🔗</div>
+        <div class="feat-title">News × Price Correlation</div>
+        <p class="feat-desc">See exactly which news events caused price moves. Chart annotations pin headlines to the candles they moved.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEWS SHOWCASE -->
+<div id="news" style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border); position:relative; z-index:1;">
+  <div class="section">
+    <div class="section-label">// News Intelligence</div>
+    <h2 class="section-title">Read less.<br>Know more.</h2>
+    <p class="section-sub">Our news feed doesn't just surface stories — it interprets them so you can act faster.</p>
+
+    <div class="showcase-wrap">
+      <div class="showcase-header">
+        <div class="sh-dot" style="background:#f85149;"></div>
+        <div class="sh-dot" style="background:#f5a623;"></div>
+        <div class="sh-dot" style="background:#3fb950;"></div>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-left:8px;letter-spacing:0.05em;">lumora.app · AAPL · News Feed</span>
+      </div>
+      <div class="showcase-body">
+        <div class="showcase-left">
+          <div class="showcase-label">How it works</div>
+          <div class="showcase-title">Sentiment-tagged news in one feed</div>
+          <p class="showcase-desc">Every headline is analyzed by our AI the moment it publishes. You see the story and whether it's bullish, bearish, or noise — before you spend time reading it.</p>
+          <ul class="showcase-feature-list">
+            <li><span class="sfl-dot"></span>Color-coded left border for instant sentiment read</li>
+            <li><span class="sfl-dot"></span>Relevance score — is this really about your stock?</li>
+            <li><span class="sfl-dot"></span>Source credibility weighting</li>
+            <li><span class="sfl-dot"></span>Filter by category: Analyst, Macro, Earnings, or more</li>
+            <li><span class="sfl-dot"></span>Pinned to chart candles when correlation is detected</li>
+          </ul>
+        </div>
+        <div class="showcase-right">
+          <div class="mini-card bull">
+            <div class="mc-top"><span class="mc-src">Bloomberg · 34m</span><span class="mc-tag">Bullish</span></div>
+            <div class="mc-hl">Apple Q4 Revenue Smashes Analyst Forecasts by Wide Margin</div>
+          </div>
+          <div class="mini-card bear">
+            <div class="mc-top"><span class="mc-src">WSJ · 2h</span><span class="mc-tag">Bearish</span></div>
+            <div class="mc-hl">EU Opens New Antitrust Probe Into Apple App Store Fees</div>
+          </div>
+          <div class="mini-card neut">
+            <div class="mc-top"><span class="mc-src">Reuters · 5h</span><span class="mc-tag">Neutral</span></div>
+            <div class="mc-hl">Apple-TSMC 2nm Chip Partnership Confirmed for 2028</div>
+          </div>
+          <div class="mini-card bull">
+            <div class="mc-top"><span class="mc-src">Seeking Alpha · 8h</span><span class="mc-tag">Bullish</span></div>
+            <div class="mc-hl">Morgan Stanley Raises AAPL Target to $230 on AI Supercycle</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOCIAL PROOF -->
+<div class="proof-section">
+  <div class="proof-inner">
+    <div class="proof-title">// Trusted by traders who take it seriously</div>
+    <div class="proof-stats">
+      <div class="proof-stat">
+        <div class="ps-num">12<span class="ps-teal">K+</span></div>
+        <div class="ps-label">Beta Users</div>
+      </div>
+      <div class="proof-stat">
+        <div class="ps-num">3.2<span class="ps-teal">M</span></div>
+        <div class="ps-label">Articles Analyzed</div>
+      </div>
+      <div class="proof-stat">
+        <div class="ps-num">200<span class="ps-teal">+</span></div>
+        <div class="ps-label">News Sources</div>
+      </div>
+      <div class="proof-stat">
+        <div class="ps-num">99.8<span class="ps-teal">%</span></div>
+        <div class="ps-label">Uptime</div>
+      </div>
+    </div>
+
+    <div class="testimonials">
+      <div class="testi-card">
+        <div class="testi-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="testi-text">"The sentiment tagging is genuinely useful. I can scan 20 headlines in the time it used to take me to read 3. The color coding just works."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#2dd4bf;">MR</div>
+          <div>
+            <div class="testi-name">Marcus R.</div>
+            <div class="testi-role">Day Trader · 7 yrs</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="testi-text">"Finally an app that doesn't look like it was designed in 2014. The dark terminal aesthetic is clean and the charts are fast."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#3fb950;">SL</div>
+          <div>
+            <div class="testi-name">Sophie L.</div>
+            <div class="testi-role">Options Trader</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="testi-text">"The news-to-candle correlation feature is a game changer. I can see exactly which article caused that 8% spike and plan around it."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#58a6ff;">JT</div>
+          <div>
+            <div class="testi-name">James T.</div>
+            <div class="testi-role">Portfolio Manager</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section" id="trial">
+  <div class="cta-glow"></div>
+  <div class="cta-inner">
+    <h2 class="cta-title">
+      Start trading<br>
+      <span class="hl">with clarity.</span>
+    </h2>
+    <p class="cta-sub">Get full access free for 14 days. No credit card required. Cancel any time.</p>
+    <a href="#" class="btn-primary" style="display:inline-flex;font-size:13px;padding:16px 36px;">
+      Start Free Trial →
+    </a>
+    <p class="cta-trial-note">14-day free trial · No credit card · Cancel anytime</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">
+        <div class="nav-logo-dot"></div>
+        Lumora
+      </div>
+      <p class="footer-desc">Illuminate your investments with real-time news intelligence and institutional-grade charts.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Product</div>
+      <ul class="footer-links">
+        <li><a href="#">Features</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Changelog</a></li>
+        <li><a href="#">Roadmap</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Legal</div>
+      <ul class="footer-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Security</a></li>
+        <li><a href="#">Cookies</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Lumora Inc. All rights reserved.</span>
+    <span class="footer-copy">Not financial advice. For informational purposes only.</span>
+  </div>
+</footer>
+
+<script>
+function toggleMenu() {
+  const m = document.getElementById('mobileMenu');
+  m.classList.toggle('open');
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('mobileMenu');
+  const hamburger = document.querySelector('.nav-hamburger');
+  if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
+    menu.classList.remove('open');
+  }
+});
+
+// Staggered fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.feature-card, .testi-card, .proof-stat').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
