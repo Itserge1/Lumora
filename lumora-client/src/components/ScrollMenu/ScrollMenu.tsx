@@ -3,6 +3,9 @@
 import styles from "./ScrollMenu.module.css";
 import {useState, useRef, useEffect} from "react";
 
+// COMPONENTS
+import News from "@/components/News/News";
+
 const ScrollMenu = () => {
     // SCROLL MENU
     const [activeTab, setActiveTab] = useState('news');
@@ -70,7 +73,11 @@ const ScrollMenu = () => {
                 <div className={styles["scrollMenu__content"]}>
                     {activeTab === 'news' && (
                         <div className={styles["tab__content"]} key="news">
-                            News content here
+                            <News/>
+                            <News/>
+                            <News/>
+                            <News/>
+                            <News/>
                         </div>
                     )}
                     {activeTab === 'earning' && (

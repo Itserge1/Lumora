@@ -102,6 +102,7 @@ const StockChart = () => {
             }
         }
     }, []);
+
     return(
         <section className={clsx(
             styles.stockChart,
